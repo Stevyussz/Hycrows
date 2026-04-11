@@ -104,11 +104,11 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
 
   return (
     <main className="min-h-screen bg-background dark:bg-[#080c14]">
-      <div className="bg-background dark:bg-[#080c14] pt-32 pb-4">
+      <div className="bg-background dark:bg-[#080c14] pt-24 pb-4">
         <Navbar />
       </div>
 
-      <article className="section-padding">
+      <article className="pb-20 pt-10 px-6">
         <div className="max-w-3xl mx-auto">
           <Link href="/artikel" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-brand transition-colors mb-10">
             <ArrowLeft size={16} /> Kembali ke Jurnal
