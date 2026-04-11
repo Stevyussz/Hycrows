@@ -39,7 +39,7 @@ const Hero = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
               <Link
-                href="#gabung"
+                href="/artikel"
                 className="inline-flex items-center justify-center gap-3 bg-brand text-white px-8 py-4.5 rounded-2xl font-bold text-sm transition-premium hover:opacity-90 hover:shadow-premium hover:-translate-y-1"
               >
                 Baca Artikel
