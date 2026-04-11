@@ -14,7 +14,7 @@ const Hero = () => {
 
       <div className="section-container relative z-10 w-full">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Text Content - Spans 5 columns */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -22,7 +22,7 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5 lg:pr-8"
           >
-            
+
             <h1 className="text-5xl md:text-6xl lg:text-[72px] font-black text-brand leading-[1.1] mb-8 tracking-tight drop-shadow-sm">
               Akselerasi <span className="relative z-10 inline-block">
                 Literasi
@@ -32,11 +32,11 @@ const Hero = () => {
               </span>,<br />
               <span className="text-primary">Mencerdaskan Bangsa.</span>
             </h1>
-            
+
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-medium">
               Wadah generasi muda Indonesia untuk mengabdi dan berkontribusi nyata dalam pemerataan akses pendidikan di seluruh penjuru Nusantara.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
               <Link
                 href="#gabung"
@@ -57,7 +57,7 @@ const Hero = () => {
               <div className="flex -space-x-3">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-[#080c14] bg-slate-100 overflow-hidden shadow-sm">
-                    <Image src={`https://i.pravatar.cc/100?u=dpn${i}`} alt="Relawan" width={40} height={40} className="w-full h-full object-cover" />
+                    <Image src={`https://i.pravatar.cc/100?u=dpn${i}`} alt="Pemuda" width={40} height={40} className="w-full h-full object-cover" />
                   </div>
                 ))}
                 <div className="w-10 h-10 rounded-full border-2 border-white dark:border-[#080c14] bg-slate-50 flex items-center justify-center shadow-sm text-xs font-bold text-slate-500">
@@ -65,7 +65,7 @@ const Hero = () => {
                 </div>
               </div>
               <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest leading-normal">
-                Bergabunglah bersama <br /><span className="text-primary dark:text-white">Ribuan Relawan</span>
+                Bergabunglah bersama <br /><span className="text-primary dark:text-white">Ribuan Pemuda</span>
               </p>
             </div>
           </motion.div>
@@ -78,16 +78,16 @@ const Hero = () => {
             className="lg:col-span-7 relative h-[600px] lg:h-[700px] w-full mt-10 lg:mt-0"
           >
             {/* Main Center Image */}
-            <motion.div 
+            <motion.div
               initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] sm:w-[70%] h-[75%] rounded-[40px] overflow-hidden shadow-premium border-4 border-white dark:border-white/5 z-20"
             >
-              <Image 
-                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80" 
-                alt="Pendidikan" 
-                fill 
-                className="object-cover" 
-                priority 
+              <Image
+                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80"
+                alt="Pendidikan"
+                fill
+                className="object-cover"
+                priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-80" />
@@ -98,29 +98,29 @@ const Hero = () => {
             </motion.div>
 
             {/* Smaller Floating Image Top Right */}
-            <motion.div 
+            <motion.div
               initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
               className="absolute top-[5%] right-[5%] w-[45%] h-[35%] rounded-[32px] overflow-hidden shadow-premium border-4 border-white dark:border-white/5 z-10 hidden sm:block"
             >
-              <Image 
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80" 
-                alt="Belajar" 
-                fill 
-                className="object-cover" 
+              <Image
+                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80"
+                alt="Belajar"
+                fill
+                className="object-cover"
                 sizes="(max-width: 768px) 50vw, 33vw"
               />
             </motion.div>
 
             {/* Smaller Floating Image Bottom Left */}
-            <motion.div 
+            <motion.div
               initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.6 }}
               className="absolute bottom-[5%] left-[5%] w-[40%] h-[35%] rounded-[32px] overflow-hidden shadow-premium border-4 border-white dark:border-white/5 z-30 hidden sm:block"
             >
-              <Image 
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80" 
-                alt="Sekolah" 
-                fill 
-                className="object-cover" 
+              <Image
+                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80"
+                alt="Sekolah"
+                fill
+                className="object-cover"
                 sizes="(max-width: 768px) 40vw, 25vw"
               />
             </motion.div>
@@ -135,7 +135,7 @@ const Hero = () => {
               </div>
               <div>
                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-0.5">Dampak Nyata</p>
-                <p className="text-lg font-black text-primary dark:text-white">10.000+ Buku</p>
+                <p className="text-lg font-black text-primary dark:text-white">1.000+ Pemuda Tergerak</p>
               </div>
             </motion.div>
 

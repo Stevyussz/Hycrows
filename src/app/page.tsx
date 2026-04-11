@@ -23,13 +23,13 @@ export default function Home() {
             <span className="text-accent drop-shadow-sm">Bagian dari Perubahan?</span>
           </h2>
           <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-            Bergabunglah dengan ribuan relawan muda terpilih lainnya dan jadilah inspirasi bagi pelosok Nusantara. Kesempatan mengajar periode 2026 telah dibuka.
+            Bergabunglah dengan ribuan pemuda terpilih lainnya dan jadilah inspirasi bagi pelosok Nusantara. K.
           </p>
           <a
             href="#gabung"
             className="inline-flex items-center justify-center bg-accent text-primary px-10 py-5 rounded-2xl font-bold text-sm hover:bg-accent-light transition-premium shadow-lg shadow-accent/20 hover:-translate-y-1"
           >
-            Daftar Seleksi Relawan Sekarang
+            Daftar Seleksi Duta Persada Nusantara Sekarang
           </a>
         </div>
         {/* Soft Ethereal Lights */}

@@ -15,7 +15,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Pemuda Pendidikan Nusantara | Akselerasi Literasi, Mencerdaskan Bangsa",
   description: "Wadah generasi muda Indonesia untuk mengabdi dan berkontribusi nyata dalam pemerataan akses pendidikan di seluruh penjuru Nusantara.",
-  keywords: ["Pemuda Pendidikan Nusantara", "Duta Persada Nusantara", "Relawan Mengajar", "Pendidikan Indonesia", "Beasiswa"],
+  keywords: ["Pemuda Pendidikan Nusantara", "Duta Persada Nusantara", "Pemuda Mengajar", "Pendidikan Indonesia", "Beasiswa"],
   openGraph: {
     type: "website",
     locale: "id_ID",

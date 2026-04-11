@@ -32,8 +32,8 @@ const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled 
-          ? "glass py-2 shadow-premium" 
+        isScrolled
+          ? "glass py-2 shadow-premium"
           : "bg-transparent py-6"
       )}
     >
@@ -78,16 +78,16 @@ const Navbar = () => {
                   href={link.href}
                   className={cn(
                     "relative text-[13px] font-semibold uppercase tracking-wider transition-premium group/link",
-                    isActive 
-                      ? "text-brand" 
-                      : isScrolled 
-                        ? "text-primary/70 hover:text-brand" 
+                    isActive
+                      ? "text-brand"
+                      : isScrolled
+                        ? "text-primary/70 hover:text-brand"
                         : "text-primary/70 dark:text-white/70 hover:text-brand dark:hover:text-white"
                   )}
                 >
                   {link.name}
                   {isActive && (
-                    <motion.span 
+                    <motion.span
                       layoutId="activeNav"
                       className="absolute -bottom-2 left-0 right-0 h-0.5 bg-brand rounded-full"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -131,8 +131,8 @@ const Navbar = () => {
                 href={link.href}
                 className={cn(
                   "flex items-center gap-3 text-lg font-bold transition-all",
-                  isActive 
-                    ? "text-brand translate-x-1" 
+                  isActive
+                    ? "text-brand translate-x-1"
                     : "text-primary dark:text-white hover:text-brand"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -147,7 +147,7 @@ const Navbar = () => {
             className="bg-primary text-white text-center py-4 rounded-2xl font-bold uppercase tracking-widest shadow-lg mt-4"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Jadi Relawan
+            Jadi Pemuda
           </Link>
         </div>
       )}

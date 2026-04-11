@@ -5,10 +5,10 @@ import Image from "next/image";
 import { ShieldCheck, Users, Globe, BookOpen } from "lucide-react";
 
 const stats = [
-  { label: "Buku Tersalurkan", value: "10K+", icon: BookOpen },
-  { label: "Relawan Pengajar", value: "2.500+", icon: Users },
-  { label: "Desa Binaan", value: "38+", icon: Globe },
-  { label: "Beasiswa", value: "150+", icon: ShieldCheck },
+  { label: "Pemuda Pendidikan Nusantara", value: "20+", icon: BookOpen },
+  { label: "Pemuda Edukatif", value: "20+", icon: Users },
+  { label: "Event Terlaksana", value: "38+", icon: Globe },
+  { label: "Beasiswa", value: "15+", icon: ShieldCheck },
 ];
 
 const programs = [
@@ -40,7 +40,7 @@ const About = () => {
               Pemuda Pendidikan Nusantara hadir untuk mensinergikan potensi mahasiswa dan pemuda dalam mengakselerasi literasi di setiap sudut negeri.
             </p>
             <p className="text-slate-500 dark:text-slate-500 mb-12 leading-relaxed">
-              Kami percaya bahwa pendidikan adalah senjata paling ampuh untuk mengubah dunia. Bersama ribuan relawan pengajar, kami turun tangan mendidik dan menginspirasi generasi emas Indonesia 2045.
+              Kami percaya bahwa pendidikan adalah senjata paling ampuh untuk mengubah dunia. Bersama ribuan Pemuda Pendidikan Nusantara, kami mengedukasi dan menginspirasi generasi emas Indonesia 2045.
             </p>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-10">

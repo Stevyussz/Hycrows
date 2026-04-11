@@ -23,7 +23,7 @@ export default defineType({
       name: 'role',
       title: 'Jabatan / Peran',
       type: 'string',
-      description: 'Contoh: Ketua Divisi Pendidikan, Relawan Pengajar 2024',
+      description: 'Contoh: Ketua Divisi Pendidikan, Pemuda Pengajar 2024',
     }),
     defineField({
       name: 'image',

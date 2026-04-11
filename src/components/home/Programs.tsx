@@ -6,8 +6,8 @@ import { ArrowRight, Palmtree, Landmark, Users2, GraduationCap, HeartHandshake, 
 
 const programs = [
   {
-    title: "Mengajar Pelosok",
-    description: "Pengiriman relawan pengajar ke daerah 3T untuk membantu mendidik siswa secara langsung.",
+    title: "Jumadi",
+    description: "Literasi setiap hari jumat.",
     icon: Users2,
   },
   {
@@ -41,7 +41,7 @@ const Programs = () => {
   return (
     <section id="program" className="section-padding bg-background overflow-hidden relative">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/3 rounded-full blur-[120px] -mr-96 -mt-96 pointer-events-none" />
-      
+
       <div className="section-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
           <div className="max-w-2xl">
@@ -58,7 +58,7 @@ const Programs = () => {
               </span>
             </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-              Fokus strategis relawan kami untuk memastikan setiap pemuda dapat berkontribusi secara nyata meningkatkan taraf literasi masyarakat.
+              Fokus strategis Pemuda kami untuk memastikan setiap pemuda dapat berkontribusi secara nyata meningkatkan taraf literasi masyarakat.
             </p>
           </div>
         </div>
@@ -74,7 +74,7 @@ const Programs = () => {
               className="group p-10 rounded-[32px] bg-white dark:bg-[#0a0f18] border border-slate-100 dark:border-white/5 transition-premium hover:shadow-premium hover:-translate-y-2 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-700 ease-out" />
-              
+
               <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5 flex items-center justify-center mb-8 transition-premium group-hover:scale-110 shadow-sm border border-slate-100 dark:border-white/5 relative z-10 text-brand">
                 <program.icon size={28} />
               </div>
@@ -84,7 +84,7 @@ const Programs = () => {
               <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm relative z-10 mb-8">
                 {program.description}
               </p>
-              
+
               <div className="pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center relative z-10">
                 <span className="text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-brand transition-colors">Telusuri</span>
                 <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-white/5 text-primary flex items-center justify-center group-hover:bg-accent group-hover:text-primary transition-colors cursor-pointer">
