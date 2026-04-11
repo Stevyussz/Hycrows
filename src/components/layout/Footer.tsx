@@ -80,9 +80,9 @@ const Footer = () => {
             <h4 className="font-black text-lg mb-8 text-white uppercase tracking-wider underline decoration-accent decoration-2 underline-offset-[12px]">Kontak</h4>
             <ul className="space-y-6">
               {[
-                { icon: MapPin, text: "Jakarta, Indonesia" },
-                { icon: Phone, text: "+62 812 3456 7890" },
-                { icon: Mail, text: "info@dpn.or.id" }
+                { icon: MapPin, text: "Indonesia" },
+                { icon: Phone, text: "+62 8xxx-xxxx" },
+                { icon: Mail, text: "dpn.pemudapendidikan@gmail.com" }
               ].map((contact, i) => (
                 <li key={i} className="flex items-start gap-4 group">
                   <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-accent/10 transition-colors">
@@ -112,6 +112,18 @@ const Footer = () => {
 
         <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]">
           <p>© {currentYear} Duta Persada Nusantara. All Rights Reserved.</p>
+          
+          <a 
+            href="https://yusrilastaghina.my.id/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="relative group py-2 px-4 border border-white/5 rounded-full hover:border-accent/30 transition-all duration-500 bg-white/[0.02] flex items-center gap-2"
+          >
+            <span className="text-slate-500 group-hover:text-slate-300 transition-colors">Digital Craft by</span>
+            <span className="text-accent underline decoration-accent/20 underline-offset-4 group-hover:decoration-accent transition-all">Yusril Astaghina</span>
+            <span className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+          </a>
+
           <div className="flex gap-10">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
