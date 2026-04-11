@@ -53,6 +53,44 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'socialMedia',
+      title: 'Media Sosial',
+      type: 'object',
+      description: 'Isi link media sosial yang ingin ditampilkan di profil',
+      fields: [
+        {
+          name: 'instagram',
+          title: 'Instagram',
+          type: 'url',
+          description: 'Contoh: https://instagram.com/namakamu',
+        },
+        {
+          name: 'twitter',
+          title: 'Twitter / X',
+          type: 'url',
+          description: 'Contoh: https://twitter.com/namakamu',
+        },
+        {
+          name: 'linkedin',
+          title: 'LinkedIn',
+          type: 'url',
+          description: 'Contoh: https://linkedin.com/in/namakamu',
+        },
+        {
+          name: 'youtube',
+          title: 'YouTube',
+          type: 'url',
+          description: 'Contoh: https://youtube.com/@namakamu',
+        },
+        {
+          name: 'website',
+          title: 'Website Pribadi',
+          type: 'url',
+          description: 'Contoh: https://namakamu.dev',
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
