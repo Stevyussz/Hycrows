@@ -14,7 +14,7 @@ const About = () => {
       <div className="section-container">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           {/* Text side */}
-          <div className="lg:w-1/2 animate-on-scroll">
+          <div className="lg:w-1/2 animate-fade-up">
             <div className="w-16 h-1.5 bg-accent mb-10 rounded-full" />
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary mb-8 leading-tight tracking-tight">
               Membangun Bangsa <br />
@@ -45,7 +45,7 @@ const About = () => {
           </div>
 
           {/* Image grid side */}
-          <div className="lg:w-1/2 relative p-4 animate-on-scroll" style={{ animationDelay: "100ms" }}>
+          <div className="lg:w-1/2 relative p-4 animate-fade-up" style={{ animationDelay: "100ms" }}>
             <div className="relative z-10 grid grid-cols-2 gap-5">
               <div className="space-y-5 pt-16">
                 <div className="rounded-[32px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.12)] h-72 border-4 border-white bg-slate-100 group">

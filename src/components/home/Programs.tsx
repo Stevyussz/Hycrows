@@ -40,7 +40,7 @@ const Programs = () => {
 
       <div className="section-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
-          <div className="max-w-2xl animate-on-scroll">
+          <div className="max-w-2xl animate-fade-up">
             <div className="inline-block px-5 py-2 rounded-full bg-accent border border-accent/20 text-primary text-[11px] font-bold uppercase tracking-[0.2em] mb-6 shadow-sm">
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
