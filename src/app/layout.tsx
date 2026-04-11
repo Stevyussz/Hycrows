@@ -13,6 +13,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://dpn-pendidikan.vercel.app"
+  ),
   title: "Pemuda Pendidikan Nusantara | Akselerasi Literasi, Mencerdaskan Bangsa",
   description: "Wadah generasi muda Indonesia untuk mengabdi dan berkontribusi nyata dalam pemerataan akses pendidikan di seluruh penjuru Nusantara.",
   keywords: ["Pemuda Pendidikan Nusantara", "Duta Persada Nusantara", "Pemuda Mengajar", "Pendidikan Indonesia", "Beasiswa"],
@@ -24,9 +27,9 @@ export const metadata: Metadata = {
     description: "Wadah generasi muda Indonesia untuk mengabdi dalam pemerataan akses pendidikan di seluruh penjuru Nusantara.",
     images: [
       {
-        url: "/logo.png",
-        width: 512,
-        height: 512,
+        url: "/og-default.png",
+        width: 1200,
+        height: 630,
         alt: "Pemuda Pendidikan Nusantara",
       },
     ],
@@ -35,9 +38,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pemuda Pendidikan Nusantara | Akselerasi Literasi",
     description: "Wadah generasi muda Indonesia untuk mengabdi dalam pemerataan akses pendidikan di seluruh penjuru Nusantara.",
-    images: ["/logo.png"],
+    images: ["/og-default.png"],
   },
 };
+
 
 export default function RootLayout({
   children,
