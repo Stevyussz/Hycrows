@@ -19,6 +19,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   "authorName": author->name,
   "authorRole": author->role,
   "authorImage": author->image,
+  "authorSlug": author->slug.current,
   "categoryTitle": categories[0]->title
 }`;
 
@@ -124,8 +125,11 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
 
             <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-slate-200 dark:border-white/10">
               <div className="flex items-center gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 border-2 border-white dark:border-[#080c14] shadow-sm">
+                <Link
+                  href={post.authorSlug ? `/penulis/${post.authorSlug}` : "#"}
+                  className="flex items-center gap-3 group/author"
+                >
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 border-2 border-white dark:border-[#080c14] shadow-sm ring-2 ring-transparent group-hover/author:ring-brand transition-all">
                     {post.authorImage && (
                       <Image 
                         width={40} 
@@ -137,10 +141,10 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-primary dark:text-white leading-none">{post.authorName || "Tim PPN"}</p>
+                    <p className="text-sm font-bold text-primary dark:text-white leading-none group-hover/author:text-brand transition-colors">{post.authorName || "Tim PPN"}</p>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{post.authorRole || "Kontributor"}</p>
                   </div>
-                </div>
+                </Link>
                 <div className="w-px h-8 bg-slate-200 dark:bg-white/10" />
                 <div className="flex items-center gap-2 text-sm font-bold text-slate-400 uppercase tracking-widest">
                   <Calendar size={14} /> 
