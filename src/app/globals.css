@@ -75,5 +75,42 @@ h1, h2, h3, h4, h5, h6 {
   @apply py-20 lg:py-24;
 }
 
+/* Performance Optimized CSS Animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+@utility animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Intersection Observer helper class */
+.animate-on-scroll {
+  opacity: 0;
+}
+
+.animate-on-scroll.is-visible {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
 
 

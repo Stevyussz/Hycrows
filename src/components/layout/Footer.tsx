@@ -6,11 +6,7 @@ import Image from "next/image";
 import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
-  const [currentYear, setCurrentYear] = useState(2026);
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+  const currentYear = 2026;
 
   return (
     <footer id="kontak" className="bg-primary text-white pt-20 lg:pt-24 pb-12 overflow-hidden relative border-t border-white/5">
