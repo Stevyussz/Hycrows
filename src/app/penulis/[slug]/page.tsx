@@ -3,7 +3,7 @@ import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { PortableText } from "@portabletext/react";
-import { ArrowLeft, ArrowRight, Calendar, PenLine, BookOpen, Instagram, Twitter, Linkedin, Youtube, Globe } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, PenLine, BookOpen, Instagram, Twitter, Linkedin, Youtube, Globe, Quote, Tags, Milestone } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
@@ -15,6 +15,8 @@ const AUTHOR_QUERY = `*[_type == "author" && slug.current == $slug][0] {
   image,
   bio,
   socialMedia,
+  quote,
+  expertise,
   "slug": slug.current,
   "posts": *[_type == "post" && references(^._id)] | order(publishedAt desc) {
     title,
@@ -22,7 +24,8 @@ const AUTHOR_QUERY = `*[_type == "author" && slug.current == $slug][0] {
     publishedAt,
     excerpt,
     mainImage,
-    "categoryTitle": categories[0]->title
+    "categoryTitle": categories[0]->title,
+    "plainText": pt::text(body)
   }
 }`;
 
@@ -52,6 +55,24 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
   if (!author) notFound();
 
   const postCount = author.posts?.length || 0;
+  
+  // Calculate dynamic stats
+  let totalWords = 0;
+  let categoryCounts: Record<string, number> = {};
+  
+  if (author.posts) {
+    author.posts.forEach((post: any) => {
+      if (post.plainText) {
+        totalWords += post.plainText.trim().split(/\s+/).filter((w: string) => w.length > 0).length;
+      }
+      if (post.categoryTitle) {
+        categoryCounts[post.categoryTitle] = (categoryCounts[post.categoryTitle] || 0) + 1;
+      }
+    });
+  }
+  
+  const topCategory = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || "-";
+
   const sm = author.socialMedia || {};
 
   const socialLinks = [
@@ -115,38 +136,70 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
                 </div>
 
                 {/* Stats */}
-                <div className="flex gap-5 sm:gap-10 mb-1">
-                  <div className="text-center">
+                <div className="flex flex-wrap sm:flex-nowrap gap-5 sm:gap-8 mb-1">
+                  <div className="text-center sm:text-left">
                     <p className="text-2xl sm:text-3xl font-black text-brand leading-none">{postCount}</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Artikel</p>
                   </div>
-                  <div className="w-px bg-slate-100" />
-                  <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-black text-brand leading-none">
-                      {postCount > 0
-                        ? new Date(author.posts[0].publishedAt).getFullYear()
-                        : new Date().getFullYear()}
+                  <div className="w-px bg-slate-100 hidden sm:block" />
+                  <div className="text-center sm:text-left">
+                    <p className="text-2xl sm:text-3xl font-black text-accent leading-none">
+                      {Intl.NumberFormat('id-ID', { notation: "compact", compactDisplay: "short" }).format(totalWords)}
                     </p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Bergabung</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Total Kata</p>
+                  </div>
+                  <div className="w-px bg-slate-100 hidden sm:block" />
+                  <div className="text-center sm:text-left">
+                    <p className="text-lg sm:text-xl font-black text-primary leading-none max-w-[120px] truncate" title={topCategory}>
+                      {topCategory}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Top Kategori</p>
                   </div>
                 </div>
               </div>
 
               {/* Name & Role */}
-              <div className="mb-5">
+              <div className="mb-6">
                 <div className="inline-block bg-accent px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-primary mb-3">
                   {author.role || "Kontributor"}
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">{author.name}</h1>
               </div>
+              
+              {/* Quote section */}
+              {author.quote && (
+                <div className="relative bg-brand/5 border border-brand/10 p-5 rounded-2xl mb-8">
+                  <Quote size={24} className="text-brand/30 absolute top-4 right-5" />
+                  <p className="text-lg text-primary/80 font-medium italic relative z-10 pl-2 border-l-2 border-accent">
+                    "{author.quote}"
+                  </p>
+                </div>
+              )}
 
               {/* Bio */}
               {author.bio ? (
-                <div className="prose prose-slate max-w-2xl text-slate-500 font-medium leading-relaxed text-sm sm:text-base mb-6">
+                <div className="prose prose-slate max-w-2xl text-slate-500 font-medium leading-relaxed text-sm sm:text-base mb-8">
                   <PortableText value={author.bio} />
                 </div>
               ) : (
-                <p className="text-slate-400 font-medium italic mb-6">Penulis belum menambahkan bio.</p>
+                <p className="text-slate-400 font-medium italic mb-8">Penulis belum menambahkan bio.</p>
+              )}
+              
+              {/* Expertise Tags */}
+              {author.expertise && author.expertise.length > 0 && (
+                <div className="mb-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Tags size={14} className="text-slate-400" />
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Keahlian & Fokus</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-sm">
+                    {author.expertise.map((tag: string, index: number) => (
+                      <span key={index} className="bg-slate-50 border border-slate-100 text-slate-600 px-3 py-1 rounded-lg font-semibold tracking-wide shadow-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               )}
 
               {/* Social Media Links */}

@@ -54,7 +54,25 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'quote',
+      title: 'Pesan/Quote Unggulan',
+      type: 'text',
+      rows: 3,
+      description: 'Pesan atau kutipan motivasi yang akan ditampilkan besar di profil',
+    }),
+    defineField({
+      name: 'expertise',
+      title: 'Keahlian (Expertise / Tags)',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags'
+      },
+      description: 'Ketik lalu tekan Enter untuk menambahkan tag keahlian',
+    }),
+    defineField({
       name: 'socialMedia',
+
       title: 'Media Sosial',
       type: 'object',
       description: 'Isi link media sosial yang ingin ditampilkan di profil',
