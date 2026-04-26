@@ -17,7 +17,7 @@ export default function Home() {
             src="/bcg.jpg"
             alt="Bergabung Bersama Kami Background"
             className="w-full h-full object-cover object-center"
-            style={{ filter: 'brightness(5) blur(0px)' }}
+            style={{ filter: 'brightness(1) blur(0px)' }}
           />
           {/* Overlay for readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand/80 to-[#1d4ed8]/80 mix-blend-multiply" />
