@@ -14,7 +14,7 @@ export default function Home() {
         {/* Background image with overlay */}
         <div className="absolute inset-0 w-full h-full z-0">
           <img
-            src="/img1.jpg"
+            src="/bcg.jpg"
             alt="Bergabung Bersama Kami Background"
             className="w-full h-full object-cover object-center"
             style={{ filter: 'brightness(0.6) blur(0px)' }}
