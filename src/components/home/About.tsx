@@ -48,12 +48,13 @@ const About = () => {
           <div className="lg:w-1/2 relative p-4 animate-fade-up" style={{ animationDelay: "100ms" }}>
             <div className="relative z-10 grid grid-cols-2 gap-5">
               <div className="space-y-5 pt-16">
+                {/* img2.jpg */}
                 <div className="rounded-[32px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.12)] h-72 border-4 border-white bg-slate-100 group">
                   <Image
                     width={400}
                     height={400}
-                    src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=75&w=600"
-                    alt="Teaching Activity"
+                    src="/img2.jpg"
+                    alt="About 1"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -68,18 +69,20 @@ const About = () => {
                   <p className="text-primary font-black text-2xl leading-tight">Dedikasi</p>
                   <p className="text-primary/70 text-xs font-bold uppercase tracking-widest mt-2">Identity</p>
                 </div>
+                {/* img4.jpg */}
                 <div className="rounded-[32px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.12)] h-72 border-4 border-white bg-slate-100 group">
                   <Image
                     width={400}
                     height={400}
-                    src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=75&w=600"
-                    alt="Education Culture"
+                    src="/img4.jpg"
+                    alt="About 2"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                 </div>
               </div>
             </div>
+            {/* Decorative background blur */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-[100px] -z-10" />
           </div>
         </div>

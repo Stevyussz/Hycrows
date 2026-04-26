@@ -11,6 +11,17 @@ export default function Home() {
       <Hero />
       <About />
       <div id="gabung" className="section-padding bg-gradient-to-br from-brand to-[#1d4ed8] overflow-hidden relative">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          <img
+            src="/img1.jpg"
+            alt="Bergabung Bersama Kami Background"
+            className="w-full h-full object-cover object-center"
+            style={{ filter: 'brightness(0.6) blur(0px)' }}
+          />
+          {/* Overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand/80 to-[#1d4ed8]/80 mix-blend-multiply" />
+        </div>
         <div className="section-container text-center relative z-10">
           <div className="inline-block px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-accent text-[11px] font-bold uppercase tracking-[0.2em] mb-8 shadow-sm">
             <span className="flex items-center gap-2">

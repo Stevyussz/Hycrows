@@ -63,15 +63,16 @@ const Hero = () => {
           </div>
 
           {/* Image Composition */}
+
           <div
             className="lg:col-span-7 relative h-[600px] lg:h-[700px] w-full mt-10 lg:mt-0 animate-fade-in"
             style={{ animationDelay: "200ms" }}
           >
-            {/* Main Center Image */}
+            {/* Main Center Image - img1.jpg */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] sm:w-[70%] h-[75%] rounded-[40px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.2)] border-4 border-white z-20">
               <Image
-                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=75&w=900"
-                alt="Pendidikan"
+                src="/img1.jpg"
+                alt="Hero 1"
                 fill
                 className="object-cover"
                 priority
@@ -84,14 +85,14 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Smaller Floating Image Top Right */}
+            {/* Smaller Floating Image Top Right - img3.jpg */}
             <div
               className="absolute top-[5%] right-[5%] w-[45%] h-[35%] rounded-[32px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.2)] border-4 border-white z-10 hidden sm:block animate-fade-in"
               style={{ animationDelay: "400ms" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=75&w=600"
-                alt="Belajar"
+                src="/img3.jpg"
+                alt="Hero 2"
                 fill
                 className="object-cover"
                 loading="lazy"
@@ -99,14 +100,14 @@ const Hero = () => {
               />
             </div>
 
-            {/* Smaller Floating Image Bottom Left */}
+            {/* Smaller Floating Image Bottom Left - img5.jpg */}
             <div
               className="absolute bottom-[5%] left-[5%] w-[40%] h-[35%] rounded-[32px] overflow-hidden shadow-[0_10px_40px_-10px_rgba(30,58,138,0.2)] border-4 border-white z-30 hidden sm:block animate-fade-in"
               style={{ animationDelay: "500ms" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=75&w=600"
-                alt="Sekolah"
+                src="/img5.jpg"
+                alt="Hero 3"
                 fill
                 className="object-cover"
                 loading="lazy"
