@@ -37,10 +37,10 @@ const Hero = () => {
                 <ArrowRight size={16} />
               </Link>
               <Link
-                href="/#program"
+                href="https://www.instagram.com/dutapersadanusantara"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-2xl font-bold text-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all duration-200 shadow-sm"
               >
-                Katalog Program
+                Instagram
               </Link>
             </div>
 

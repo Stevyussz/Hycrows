@@ -2,36 +2,37 @@ import { ArrowRight, Palmtree, Users2, GraduationCap, HeartHandshake, Presentati
 
 const programs = [
   {
-    title: "Jumadi",
-    description: "Literasi setiap hari jumat.",
+    title: "Jumasi (Jumat Literasi)",
+    description: "Program literasi untuk membiasakan membaca dan menulis melalui unggahan Instagram Story serta eksplorasi karya seperti buku dan cerpen.",
     icon: Users2,
   },
   {
-    title: "Donasi Buku",
-    description: "Penggalangan dan penyaluran buku bacaan berkualitas untuk memajukan perpustakaan desa.",
+    title: "Competition",
+    description: "Ajang lomba terbuka untuk mengasah kreativitas dan kemampuan peserta melalui berbagai kategori seperti poster, esai, dan lainnya.",
     icon: BookOpen,
   },
   {
-    title: "Mentoring Beasiswa",
-    description: "Bimbingan intensif persiapan masuk PTN dan pengajuan beasiswa bagi siswa kurang mampu.",
+    title: "Act To Inspire",
+    description: "Program kegiatan offline individu bertema pendidikan yang mendorong kontribusi langsung di lapangan, dilanjutkan dengan Nyala Asa Nusantara sebagai tindak lanjut.",
     icon: GraduationCap,
   },
   {
-    title: "Literasi Digital",
-    description: "Kampanye pemahaman teknologi edukatif agar siswa melek perkembangan masa depan cerdas.",
+    title: "EduVibes",
+    description: "Live Instagram interaktif yang membahas isu pendidikan terkini serta menghadirkan sesi bedah buku.",
     icon: Palmtree,
   },
   {
-    title: "Aksi Sosial Sekolah",
-    description: "Renovasi dan perbaikan infrastruktur sederhana agar proses belajar menjadi senyaman mungkin.",
+    title: "EduTalk",
+    description: "Webinar via Zoom dengan pemateri internal dan eksternal yang membahas isu pendidikan penting dan актуal.",
     icon: HeartHandshake,
   },
   {
-    title: "Latihan Kepemimpinan",
+    title: "Edu Content",
     description: "Membentuk karakter pemuda-pemudi daerah melalui workshop pengembangan kepemimpinan diri.",
     icon: Presentation,
   },
 ];
+
 
 const Programs = () => {
   return (
