@@ -17,12 +17,12 @@ export default function Home() {
             src="/bcg.jpg"
             alt="Bergabung Bersama Kami Background"
             className="w-full h-full object-cover object-center"
-            style={{ filter: 'brightness(0.6) blur(0px)' }}
+            style={{ filter: 'brightness(5) blur(0px)' }}
           />
           {/* Overlay for readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand/80 to-[#1d4ed8]/80 mix-blend-multiply" />
         </div>
-        <div className="section-container text-center relative z-10">
+        <div className="hover:opacity-0 transition-opacity section-container text-center relative z-10">
           <div className="inline-block px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-accent text-[11px] font-bold uppercase tracking-[0.2em] mb-8 shadow-sm">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
