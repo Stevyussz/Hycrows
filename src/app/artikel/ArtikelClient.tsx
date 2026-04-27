@@ -109,6 +109,7 @@ export default function ArtikelClient({ posts, featured, popular }: Props) {
 
   // When search/filter is active, hide featured/popular and show flat grid
   const isFiltering = query.trim() !== "" || activeCategory !== "Semua";
+  const hasSidebar = popular.length > 0 && !isFiltering;
 
   return (
     <>
@@ -116,17 +117,17 @@ export default function ArtikelClient({ posts, featured, popular }: Props) {
       {featured && !isFiltering && (
         <Link
           href={`/artikel/${featured.slug}`}
-          className="group relative flex flex-col md:flex-row rounded-[32px] overflow-hidden border border-slate-100 bg-white shadow-[0_10px_40px_-10px_rgba(30,58,138,0.1)] mb-10 transition-all duration-300 hover:shadow-[0_20px_60px_-15px_rgba(30,58,138,0.18)] hover:-translate-y-1"
+          className="group relative flex flex-col md:flex-row rounded-[24px] overflow-hidden bg-white mb-10 transition-all duration-300 hover:shadow-[0_20px_60px_-15px_rgba(30,58,138,0.08)] hover:-translate-y-1"
         >
           {/* Image */}
-          <div className="relative w-full md:w-[55%] h-64 md:h-auto min-h-[280px] bg-slate-100 overflow-hidden shrink-0">
+          <div className="relative w-full md:w-[60%] h-64 md:h-auto min-h-[320px] bg-slate-100 overflow-hidden shrink-0 rounded-[24px]">
             {featured.mainImage ? (
               <Image
                 fill
-                src={urlForImage(featured.mainImage).width(900).height(600).url()}
+                src={urlForImage(featured.mainImage).width(1200).height(800).url()}
                 alt={featured.title}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 55vw"
+                sizes="(max-width: 768px) 100vw, 60vw"
                 priority
               />
             ) : (
@@ -134,50 +135,52 @@ export default function ArtikelClient({ posts, featured, popular }: Props) {
                 <BookOpen size={48} />
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/5" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/40" />
+            
+             <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex gap-2 z-10">
+                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-black uppercase tracking-widest text-primary shadow-sm">
+                    <Star size={12} className="fill-brand text-brand" />
+                    Utama
+                 </div>
+                 {featured.categoryTitle && (
+                    <div className="px-3 py-1.5 rounded-full bg-primary/90 backdrop-blur-md text-[10px] font-black uppercase tracking-widest text-white shadow-sm">
+                    {featured.categoryTitle}
+                    </div>
+                )}
+             </div>
           </div>
 
           {/* Content */}
-          <div className="flex flex-col justify-center p-7 sm:p-10 md:p-12">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-[9px] font-black uppercase tracking-widest text-amber-600">
-                <Star size={10} className="fill-amber-500 text-amber-500" />
-                Artikel Utama
-              </div>
-              {featured.categoryTitle && (
-                <div className="px-3 py-1 rounded-full bg-accent text-[9px] font-black uppercase tracking-widest text-primary">
-                  {featured.categoryTitle}
-                </div>
-              )}
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight leading-tight mb-4 group-hover:text-brand transition-colors">
+          <div className="flex flex-col justify-center p-6 sm:p-8 md:p-10 md:w-[40%]">
+            <h2 className="text-2xl sm:text-3xl font-black text-primary tracking-tight leading-tight mb-4 group-hover:text-brand transition-colors line-clamp-3 md:line-clamp-4">
               {featured.title}
             </h2>
 
             {featured.excerpt && (
-              <p className="text-slate-500 font-medium leading-relaxed mb-6 line-clamp-3 text-sm sm:text-base">
+              <p className="text-slate-500 font-medium leading-relaxed mb-6 line-clamp-2 md:line-clamp-3 text-sm">
                 {featured.excerpt}
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">
-              {featured.authorName && (
-                <span className="flex items-center gap-1.5">
-                  <User size={11} /> {featured.authorName}
-                </span>
-              )}
-              {featured.publishedAt && (
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={11} />
-                  {new Date(featured.publishedAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
-                </span>
-              )}
-            </div>
+            <div className="mt-auto">
+               <div className="flex items-center gap-3 mb-4">
+                  {featured.authorName && (
+                    <span className="text-xs font-bold text-slate-700">
+                     {featured.authorName}
+                    </span>
+                  )}
+                  {featured.authorName && featured.publishedAt && <span className="text-slate-300">•</span>}
+                  {featured.publishedAt && (
+                    <span className="text-xs font-bold text-slate-400">
+                      {new Date(featured.publishedAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                    </span>
+                  )}
+               </div>
 
-            <div className="inline-flex items-center gap-2 font-bold text-sm text-brand">
-              Baca Selengkapnya
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                <div className="inline-flex items-center gap-2 font-black text-xs text-brand uppercase tracking-widest">
+                Baca Artikel
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                </div>
             </div>
           </div>
         </Link>
@@ -230,9 +233,9 @@ export default function ArtikelClient({ posts, featured, popular }: Props) {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
 
         {/* Grid */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 max-w-full">
           {filtered.length > 0 ? (
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className={`grid gap-5 ${hasSidebar ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"}`}>
               {filtered.map((post, i) => (
                 <PostCard key={post.slug || i} post={post} priority={i < 2} />
               ))}
