@@ -72,7 +72,7 @@ export default function LaunchPage() {
       {/* Preloaded video — always in DOM, shown when phase=video */}
       <video
         ref={videoRef}
-        src="/Upscaler-4K - Ultimate-Gacha HSR.mp4"
+        src="/gacha-launch.mp4"
         className="absolute inset-0 w-full h-full object-cover z-50 transition-opacity duration-700"
         style={{ opacity: isVideo ? 1 : 0, pointerEvents: isVideo ? "auto" : "none" }}
         onEnded={handleVideoEnd}
