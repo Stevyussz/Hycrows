@@ -4,16 +4,14 @@ import { client } from "@/sanity/lib/client";
 import ArtikelClient from "./ArtikelClient";
 import type { Metadata } from "next";
 
-// Revalidate every 60 seconds so new articles appear quickly
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Jurnal & Artikel | Pemuda Pendidikan Nusantara",
-  description:
-    "Kumpulan cerita aksi mengajar, liputan kegiatan, serta tips seputar pendidikan dan beasiswa dari pengurus Pemuda Pendidikan Nusantara.",
+  description: "Kumpulan cerita aksi mengajar, liputan kegiatan, serta tips seputar pendidikan dan beasiswa dari pengurus Pemuda Pendidikan Nusantara.",
 };
 
-const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+const POST_FIELDS = `
   title,
   "slug": slug.current,
   publishedAt,
@@ -21,10 +19,23 @@ const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publish
   mainImage,
   "authorName": author->name,
   "categoryTitle": categories[0]->title
-}`;
+`;
+
+// All published posts (for grid + filter)
+const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) { ${POST_FIELDS} }`;
+
+// 1 featured article (editor-picked)
+const FEATURED_QUERY = `*[_type == "post" && defined(slug.current) && isFeatured == true] | order(publishedAt desc)[0] { ${POST_FIELDS} }`;
+
+// Up to 5 popular/editor's pick articles
+const POPULAR_QUERY = `*[_type == "post" && defined(slug.current) && isPopular == true] | order(publishedAt desc)[0..4] { ${POST_FIELDS} }`;
 
 export default async function ArtikelPage() {
-  const posts = await client.fetch(POSTS_QUERY, {}, { next: { revalidate: 60 } });
+  const [posts, featured, popular] = await Promise.all([
+    client.fetch(POSTS_QUERY, {}, { next: { revalidate: 60 } }),
+    client.fetch(FEATURED_QUERY, {}, { next: { revalidate: 60 } }),
+    client.fetch(POPULAR_QUERY, {}, { next: { revalidate: 60 } }),
+  ]);
 
   return (
     <main className="min-h-screen bg-[#f8fafc]">
@@ -43,13 +54,11 @@ export default async function ArtikelPage() {
               Jurnal &amp; <span className="text-brand">Artikel.</span>
             </h1>
             <p className="text-slate-500 font-medium max-w-2xl text-lg">
-              Kumpulan cerita aksi mengajar, liputan kegiatan, serta tips seputar pendidikan
-              dan beasiswa dari pengurus Pemuda Pendidikan Nusantara.
+              Kumpulan cerita aksi mengajar, liputan kegiatan, serta tips seputar pendidikan dan beasiswa dari pengurus Pemuda Pendidikan Nusantara.
             </p>
           </div>
 
-          {/* Client component handles search + grid */}
-          <ArtikelClient posts={posts} />
+          <ArtikelClient posts={posts} featured={featured ?? null} popular={popular ?? []} />
         </div>
       </section>
 

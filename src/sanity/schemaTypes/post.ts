@@ -58,6 +58,20 @@ export default defineType({
       type: 'datetime',
     }),
     defineField({
+      name: 'isFeatured',
+      title: '⭐ Jadikan Artikel Utama (Featured)',
+      type: 'boolean',
+      description: 'Aktifkan untuk menampilkan artikel ini sebagai hero besar di halaman Artikel.',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'isPopular',
+      title: '🔥 Pilihan Editor (Popular)',
+      type: 'boolean',
+      description: 'Aktifkan untuk memasukkan artikel ini ke daftar Pilihan Editor di sidebar.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'body',
       title: 'Isi Konten Artikel',
       type: 'blockContent',
