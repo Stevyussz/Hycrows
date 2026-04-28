@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export default function ReadingProgress() {
-  const [progress, setProgress] = useState(0);
-
+  const progress = useMotionValue(0);
   const scaleX = useSpring(progress, {
     stiffness: 100,
     damping: 30,
@@ -19,45 +18,48 @@ export default function ReadingProgress() {
       
       const windowHeight = window.innerHeight;
       const elementRect = element.getBoundingClientRect();
-      const elementTop = elementRect.top;
       const elementHeight = elementRect.height;
       
-      // Start filling when article content hits the top of the screen (or 100px offset for navbar)
       const offset = 100;
       let p = 0;
       
-      if (elementTop <= offset) {
-        // Distance scrolled past the start of the article
-        const scrollDistance = offset - elementTop; 
-        
-        // Total distance we can scroll before we hit the bottom of the article
-        // We subtract the window height because we reach 100% when the *bottom* of the article 
-        // hits the *bottom* of the screen.
+      if (elementRect.top <= offset) {
+        const scrollDistance = offset - elementRect.top; 
         const maxScroll = elementHeight - windowHeight + offset;
         
         if (maxScroll > 0) {
            p = scrollDistance / maxScroll;
         } else {
-           p = 1; // If article is very short, just fill it
+           p = 1; 
         }
       }
       
       p = Math.max(0, Math.min(1, p));
-      setProgress(p);
+      progress.set(p); // Set directly, no re-renders!
     };
 
-    // Use passive listener for better performance
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
-    // Initial calculation
+    window.addEventListener("resize", handleScroll);
     handleScroll(); 
     
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // Watch for image loads that change the height
+    const el = document.getElementById("article-content");
+    let observer: ResizeObserver | null = null;
+    if (el && window.ResizeObserver) {
+      observer = new ResizeObserver(handleScroll);
+      observer.observe(el);
+    }
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (observer) observer.disconnect();
+    };
+  }, [progress]);
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand to-orange-400 transform origin-left z-[9999]"
+      className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand to-orange-400 origin-left z-[9999] pointer-events-none"
       style={{ scaleX }}
     />
   );

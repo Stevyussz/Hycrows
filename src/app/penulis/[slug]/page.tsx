@@ -24,6 +24,7 @@ const AUTHOR_QUERY = `*[_type == "author" && slug.current == $slug][0] {
     publishedAt,
     excerpt,
     mainImage,
+    claps,
     "categoryTitle": categories[0]->title,
     "plainText": pt::text(body)
   }
@@ -58,10 +59,12 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
   
   // Calculate dynamic stats
   let totalWords = 0;
+  let totalClaps = 0;
   let categoryCounts: Record<string, number> = {};
   
   if (author.posts) {
     author.posts.forEach((post: any) => {
+      totalClaps += post.claps || 0;
       if (post.plainText) {
         totalWords += post.plainText.trim().split(/\s+/).filter((w: string) => w.length > 0).length;
       }
@@ -140,6 +143,13 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
                   <div className="text-center sm:text-left">
                     <p className="text-2xl sm:text-3xl font-black text-brand leading-none">{postCount}</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Artikel</p>
+                  </div>
+                  <div className="w-px bg-slate-100 hidden sm:block" />
+                  <div className="text-center sm:text-left">
+                    <p className="text-2xl sm:text-3xl font-black text-pink-500 leading-none">
+                      {Intl.NumberFormat('id-ID', { notation: "compact", compactDisplay: "short" }).format(totalClaps)}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Total Claps</p>
                   </div>
                   <div className="w-px bg-slate-100 hidden sm:block" />
                   <div className="text-center sm:text-left">
