@@ -2,27 +2,31 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Hand } from "lucide-react";
+import { Heart } from "lucide-react";
 
 type ClapButtonProps = {
   postId: string;
   initialClaps: number;
-  compact?: boolean;
 };
 
-export default function ClapButton({ postId, initialClaps, compact = false }: ClapButtonProps) {
+// Random emojis for the festive burst
+const EMOJIS = ["💖", "✨", "🔥", "🎉", "👏", "⭐"];
+
+export default function ClapButton({ postId, initialClaps }: ClapButtonProps) {
   const [totalClaps, setTotalClaps] = useState(initialClaps || 0);
   const [userClaps, setUserClaps] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showFloating, setShowFloating] = useState(false);
   
-  // To show floating numbers "+1, +2"
-  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>([]);
+  // Floating emojis instead of just numbers
+  const [clicks, setClicks] = useState<{ id: number; x: number; y: number; emoji: string }[]>([]);
   let clickIdCounter = useRef(0);
   
-  // Debounce API call
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const unsavedClaps = useRef(0);
+  const inlineContainerRef = useRef<HTMLDivElement>(null);
 
-  // Load user's local claps from localStorage so they know if they already clapped
+  // Load user's local claps
   useEffect(() => {
     const stored = localStorage.getItem(`claps_${postId}`);
     if (stored) {
@@ -30,58 +34,36 @@ export default function ClapButton({ postId, initialClaps, compact = false }: Cl
     }
   }, [postId]);
 
-  const handleClap = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Max 50 claps per user per post (Medium style)
+  // Scroll listener to show/hide floating button
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show floating button when user scrolls down 300px
+      if (window.scrollY > 300) {
+        // But hide it if they reach the bottom where the inline button is visible
+        if (inlineContainerRef.current) {
+          const rect = inlineContainerRef.current.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            setShowFloating(false); // Inline is visible
+          } else {
+            setShowFloating(true); // Inline is not visible
+          }
+        } else {
+          setShowFloating(true);
+        }
+      } else {
+        setShowFloating(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleClap = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
     if (userClaps >= 50) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    // Increment local state
-    const newTotal = totalClaps + 1;
-    const newUserClaps = userClaps + 1;
-    
-    setTotalClaps(newTotal);
-    setUserClaps(newUserClaps);
-    setIsAnimating(true);
-    
-    // Save to local storage
-    localStorage.setItem(`claps_${postId}`, newUserClaps.toString());
-
-    // Add floating number
-    const newClick = { id: clickIdCounter.current++, x, y };
-    setClicks((prev) => [...prev, newClick]);
-
-    // Remove floating number after animation
-    setTimeout(() => {
-      setClicks((prev) => prev.filter((c) => c.id !== newClick.id));
-      setIsAnimating(false);
-    }, 1000);
-
-    // Debounce API call to save to Sanity
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    
-    timeoutRef.current = setTimeout(() => {
-      // Send the accumulated claps to the server
-      // Note: In a real robust system, we would track exact delta, but here we 
-      // just increment by 1 for every click via the state tracking.
-      // Wait, if we send "clapsToAdd" as the delta since last API call...
-      // For simplicity, we can just assume each debounced call sends the delta.
-      // But we need to track delta since last save.
-    }, 1000);
-  };
-
-  // We need a ref to track unsaved claps to send them safely
-  const unsavedClaps = useRef(0);
-
-  const handleClapWithDelta = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (userClaps >= 50) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    
-    // Randomize slightly around the click center
-    const x = (e.clientX - rect.left) + (Math.random() * 20 - 10);
+    const x = (e.clientX - rect.left) + (Math.random() * 40 - 20); // Wider random spread
     const y = (e.clientY - rect.top) + (Math.random() * 20 - 10);
 
     const newUserClaps = userClaps + 1;
@@ -92,13 +74,21 @@ export default function ClapButton({ postId, initialClaps, compact = false }: Cl
     
     localStorage.setItem(`claps_${postId}`, newUserClaps.toString());
 
-    const newClick = { id: clickIdCounter.current++, x, y };
-    setClicks((prev) => [...prev, newClick]);
+    // Generate 2-3 random emojis per click for maximum wow factor
+    const numEmojis = Math.floor(Math.random() * 2) + 2; 
+    const newClicks = Array.from({ length: numEmojis }).map(() => ({
+      id: clickIdCounter.current++,
+      x: x + (Math.random() * 60 - 30),
+      y: y + (Math.random() * 20 - 10),
+      emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+    }));
+
+    setClicks((prev) => [...prev, ...newClicks]);
 
     setTimeout(() => {
-      setClicks((prev) => prev.filter((c) => c.id !== newClick.id));
+      setClicks((prev) => prev.filter((c) => !newClicks.find(n => n.id === c.id)));
       setIsAnimating(false);
-    }, 1000);
+    }, 1200);
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     
@@ -106,7 +96,7 @@ export default function ClapButton({ postId, initialClaps, compact = false }: Cl
       if (unsavedClaps.current === 0) return;
       
       const clapsToSend = unsavedClaps.current;
-      unsavedClaps.current = 0; // Reset immediately to capture new clicks
+      unsavedClaps.current = 0; 
 
       try {
         await fetch("/api/claps", {
@@ -117,73 +107,128 @@ export default function ClapButton({ postId, initialClaps, compact = false }: Cl
       } catch (err) {
         console.error("Failed to sync claps");
       }
-    }, 1500); // 1.5s delay after last click
+    }, 1500);
   };
 
-  return (
-    <div className="flex items-center gap-3">
-      <div className="relative">
-        <button
-          onClick={handleClapWithDelta}
-          disabled={userClaps >= 50}
-          className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-full border transition-all duration-300 ${
-            userClaps > 0 
-              ? "bg-brand border-brand text-white shadow-[0_4px_20px_-4px_rgba(245,158,11,0.5)]" 
-              : "bg-white border-slate-200 text-slate-400 hover:border-brand hover:text-brand hover:shadow-sm"
-          } ${userClaps >= 50 ? "opacity-50 cursor-not-allowed" : ""}`}
-        >
-          <motion.div
-            animate={isAnimating ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
-            transition={{ duration: 0.4 }}
-          >
-            <Hand size={20} className={userClaps > 0 ? "fill-white" : ""} />
-          </motion.div>
-          
-          {/* Small badge for compact mode */}
-          {compact && totalClaps > 0 && (
-            <div className="absolute -top-2 -right-2 bg-brand text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-sm">
-              {totalClaps}
-            </div>
-          )}
-        </button>
+  const isMaxed = userClaps >= 50;
 
-        {/* Floating Numbers (Explosion effect) */}
-        <AnimatePresence>
-          {clicks.map((click) => (
-            <motion.div
-              key={click.id}
-              initial={{ opacity: 1, y: click.y - 20, x: click.x - 10, scale: 0.5, rotate: Math.random() * 40 - 20 }}
-              animate={{ opacity: 0, y: click.y - 120, x: click.x + (Math.random() * 40 - 20), scale: 1.5 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="absolute pointer-events-none font-black text-brand text-xl z-20 drop-shadow-md"
-            >
-              +{userClaps}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+  // The actual interactive button component (reused for inline and floating)
+  const renderInteractiveButton = (isFloating = false) => (
+    <div className="relative">
+      <button
+        onClick={handleClap}
+        disabled={isMaxed}
+        className={`relative z-10 flex items-center justify-center transition-all duration-300 ${
+          isFloating ? "w-14 h-14 shadow-[0_10px_30px_-5px_rgba(236,72,153,0.4)]" : "w-14 h-14"
+        } rounded-full border-2 ${
+          userClaps > 0 
+            ? "bg-gradient-to-tr from-pink-500 to-rose-400 border-transparent text-white" 
+            : "bg-white border-slate-200 text-slate-400 hover:border-pink-400 hover:text-pink-500 hover:bg-pink-50"
+        } ${isMaxed ? "opacity-60 cursor-not-allowed" : "cursor-pointer hover:scale-110 active:scale-95"}`}
+      >
+        <motion.div
+          animate={isAnimating ? { scale: [1, 1.4, 1], rotate: [0, -10, 10, 0] } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <Heart size={isFloating ? 26 : 24} className={userClaps > 0 ? "fill-white" : ""} />
+        </motion.div>
         
-        {/* Pulse Effect */}
-        {isAnimating && (
-          <motion.div
-            className="absolute inset-0 rounded-full bg-brand/40 z-0"
-            initial={{ scale: 1, opacity: 1 }}
-            animate={{ scale: 2.5, opacity: 0 }}
-            transition={{ duration: 0.7 }}
-          />
+        {/* Floating progress ring indicator */}
+        {userClaps > 0 && !isMaxed && (
+           <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+              <circle 
+                cx="50" cy="50" r="48" 
+                fill="none" 
+                stroke="rgba(255,255,255,0.3)" 
+                strokeWidth="4" 
+              />
+              <circle 
+                cx="50" cy="50" r="48" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="4" 
+                strokeDasharray="301.59" 
+                strokeDashoffset={301.59 - (301.59 * (userClaps / 50))} 
+                strokeLinecap="round"
+                className="transition-all duration-300"
+              />
+           </svg>
         )}
-      </div>
+      </button>
+
+      {/* Burst Particles */}
+      <AnimatePresence>
+        {clicks.map((click) => (
+          <motion.div
+            key={click.id}
+            initial={{ opacity: 1, y: click.y - 10, x: click.x - 20, scale: 0.5, rotate: Math.random() * 60 - 30 }}
+            animate={{ 
+              opacity: 0, 
+              y: click.y - (Math.random() * 80 + 60), 
+              x: click.x + (Math.random() * 60 - 30),
+              scale: 1.5,
+              rotate: Math.random() * 100 - 50
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="absolute pointer-events-none text-2xl z-20"
+            style={{ left: "50%", top: "50%" }}
+          >
+            {click.emoji}
+          </motion.div>
+        ))}
+      </AnimatePresence>
       
-      {!compact && (
+      {/* Shockwave Effect */}
+      {isAnimating && (
+        <motion.div
+          className="absolute inset-0 rounded-full bg-pink-400 z-0 pointer-events-none"
+          initial={{ scale: 1, opacity: 0.6 }}
+          animate={{ scale: 2.5, opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      {/* Inline Button (Inside CTA Block) */}
+      <div className="flex items-center gap-4" ref={inlineContainerRef}>
+        {renderInteractiveButton(false)}
         <div>
-          <p className="text-sm font-black text-primary leading-none">
+          <p className="text-xl font-black text-primary leading-none tracking-tight">
             {totalClaps.toLocaleString("id-ID")}
           </p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">
             Apresiasi
           </p>
         </div>
-      )}
-    </div>
+      </div>
+
+      {/* Floating Button (Mudah Ditemukan) */}
+      <AnimatePresence>
+        {showFloating && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.8 }}
+            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[9999] flex flex-col items-center gap-2"
+          >
+            {/* Show user's claps bubble if they clapped */}
+            {userClaps > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white text-pink-500 font-black text-xs px-3 py-1 rounded-full shadow-md border border-pink-100"
+              >
+                {userClaps}/50
+              </motion.div>
+            )}
+            {renderInteractiveButton(true)}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
