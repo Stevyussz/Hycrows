@@ -12,6 +12,7 @@ const navLinks = [
   { name: "Artikel", href: "/artikel" },
   { name: "Program", href: "/#program" },
   { name: "Tentang", href: "/#tentang" },
+  { name: "Tersimpan", href: "/bookmark" },
 ];
 
 const Navbar = () => {

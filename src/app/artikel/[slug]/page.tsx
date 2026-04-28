@@ -8,6 +8,9 @@ import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import { notFound } from "next/navigation";
 import ShareButton from "./ShareButton";
+import ReadingProgress from "./ReadingProgress";
+import ClapButton from "./ClapButton";
+import BookmarkButton from "./BookmarkButton";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -18,6 +21,8 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   mainImage,
   body,
   excerpt,
+  claps,
+  "_id": _id,
   "slug": slug.current,
   "authorName": author->name,
   "authorRole": author->role,
@@ -100,6 +105,7 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
 
   return (
     <main className="min-h-screen bg-[#f8fafc]">
+      <ReadingProgress />
       <div className="bg-[#f8fafc] pt-20 pb-2">
         <Navbar />
       </div>
@@ -148,8 +154,20 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
                 </div>
               </div>
 
-              {/* Share button — client component */}
-              <ShareButton title={post.title} url={articleUrl} />
+              {/* Share & Bookmark buttons */}
+              <div className="flex items-center gap-3">
+                <BookmarkButton 
+                  post={{
+                    slug: post.slug,
+                    title: post.title,
+                    excerpt: post.excerpt || "",
+                    authorName: post.authorName || "Tim PPN",
+                    categoryTitle: post.categoryTitle || "Umum",
+                    publishedAt: post.publishedAt || new Date().toISOString(),
+                  }} 
+                />
+                <ShareButton title={post.title} url={articleUrl} />
+              </div>
             </div>
           </div>
 
@@ -172,13 +190,27 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
             {post.body && <PortableText value={post.body} components={components} />}
           </div>
 
-          {/* Share CTA — bottom of article */}
-          <div className="mt-14 p-6 sm:p-8 rounded-[28px] bg-white border border-slate-100 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-5">
-            <div>
-              <p className="font-black text-primary text-lg leading-tight">Suka artikel ini?</p>
-              <p className="text-slate-400 text-sm font-medium mt-1">Bagikan ke teman-temanmu agar lebih banyak yang terinspirasi.</p>
+          {/* Claps & Share CTA — bottom of article */}
+          <div className="mt-14 p-6 sm:p-8 rounded-[28px] bg-white border border-slate-100 shadow-[0_10px_40px_-10px_rgba(30,58,138,0.05)] flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex-1 w-full flex flex-col sm:flex-row items-center justify-between gap-6">
+              
+              {/* Claps Section */}
+              <div className="flex items-center gap-4">
+                 <ClapButton postId={post._id} initialClaps={post.claps || 0} />
+              </div>
+
+              <div className="w-full sm:w-px h-px sm:h-12 bg-slate-100" />
+
+              {/* Share Section */}
+              <div className="flex items-center gap-4">
+                <div className="text-center sm:text-right">
+                  <p className="font-black text-primary text-sm leading-tight">Bagikan Artikel</p>
+                  <p className="text-slate-400 text-[11px] font-medium mt-0.5">Ke teman & jaringanmu.</p>
+                </div>
+                <ShareButton title={post.title} url={articleUrl} />
+              </div>
+
             </div>
-            <ShareButton title={post.title} url={articleUrl} />
           </div>
         </div>
       </article>

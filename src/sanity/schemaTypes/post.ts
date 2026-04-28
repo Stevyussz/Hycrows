@@ -72,6 +72,13 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'claps',
+      title: '👏 Jumlah Tepuk Tangan (Claps)',
+      type: 'number',
+      description: 'Jumlah apresiasi dari pengunjung (terupdate otomatis dari website).',
+      initialValue: 0,
+    }),
+    defineField({
       name: 'body',
       title: 'Isi Konten Artikel',
       type: 'blockContent',
