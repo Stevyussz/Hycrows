@@ -11,6 +11,7 @@ import ShareButton from "./ShareButton";
 import ReadingProgress from "./ReadingProgress";
 import ClapButton from "./ClapButton";
 import BookmarkButton from "./BookmarkButton";
+import FloatingActionBar from "./FloatingActionBar";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -153,21 +154,6 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
                     : "Draft"}
                 </div>
               </div>
-
-              {/* Share & Bookmark buttons */}
-              <div className="flex items-center gap-3">
-                <BookmarkButton 
-                  post={{
-                    slug: post.slug,
-                    title: post.title,
-                    excerpt: post.excerpt || "",
-                    authorName: post.authorName || "Tim PPN",
-                    categoryTitle: post.categoryTitle || "Umum",
-                    publishedAt: post.publishedAt || new Date().toISOString(),
-                  }} 
-                />
-                <ShareButton title={post.title} url={articleUrl} />
-              </div>
             </div>
           </div>
 
@@ -186,34 +172,13 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
           )}
 
           {/* Article body */}
-          <div className="prose prose-lg md:prose-xl prose-slate max-w-none prose-headings:font-black prose-img:rounded-[28px]">
+          <div id="article-content" className="prose prose-lg md:prose-xl prose-slate max-w-none prose-headings:font-black prose-img:rounded-[28px] pb-10">
             {post.body && <PortableText value={post.body} components={components} />}
-          </div>
-
-          {/* Claps & Share CTA — bottom of article */}
-          <div className="mt-14 p-6 sm:p-8 rounded-[28px] bg-white border border-slate-100 shadow-[0_10px_40px_-10px_rgba(30,58,138,0.05)] flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex-1 w-full flex flex-col sm:flex-row items-center justify-between gap-6">
-              
-              {/* Claps Section */}
-              <div className="flex items-center gap-4">
-                 <ClapButton postId={post._id} initialClaps={post.claps || 0} />
-              </div>
-
-              <div className="w-full sm:w-px h-px sm:h-12 bg-slate-100" />
-
-              {/* Share Section */}
-              <div className="flex items-center gap-4">
-                <div className="text-center sm:text-right">
-                  <p className="font-black text-primary text-sm leading-tight">Bagikan Artikel</p>
-                  <p className="text-slate-400 text-[11px] font-medium mt-0.5">Ke teman & jaringanmu.</p>
-                </div>
-                <ShareButton title={post.title} url={articleUrl} />
-              </div>
-
-            </div>
           </div>
         </div>
       </article>
+
+
 
       {/* ── Related Articles ── */}
       {related.length > 0 && (
@@ -280,6 +245,22 @@ export default async function ArticleDetail({ params }: { params: Promise<{ slug
           </div>
         </section>
       )}
+
+      {/* Floating Action Bar (Sticky Bottom) */}
+      <FloatingActionBar 
+        postId={post._id} 
+        initialClaps={post.claps || 0} 
+        articleUrl={articleUrl}
+        articleTitle={post.title}
+        postForBookmark={{
+          slug: post.slug,
+          title: post.title,
+          excerpt: post.excerpt || "",
+          authorName: post.authorName || "Tim PPN",
+          categoryTitle: post.categoryTitle || "Umum",
+          publishedAt: post.publishedAt || new Date().toISOString(),
+        }}
+      />
 
       <Footer />
     </main>

@@ -7,9 +7,10 @@ import { Hand } from "lucide-react";
 type ClapButtonProps = {
   postId: string;
   initialClaps: number;
+  compact?: boolean;
 };
 
-export default function ClapButton({ postId, initialClaps }: ClapButtonProps) {
+export default function ClapButton({ postId, initialClaps, compact = false }: ClapButtonProps) {
   const [totalClaps, setTotalClaps] = useState(initialClaps || 0);
   const [userClaps, setUserClaps] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -132,23 +133,30 @@ export default function ClapButton({ postId, initialClaps }: ClapButtonProps) {
           } ${userClaps >= 50 ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <motion.div
-            animate={isAnimating ? { scale: [1, 1.2, 1] } : {}}
-            transition={{ duration: 0.3 }}
+            animate={isAnimating ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
+            transition={{ duration: 0.4 }}
           >
             <Hand size={20} className={userClaps > 0 ? "fill-white" : ""} />
           </motion.div>
+          
+          {/* Small badge for compact mode */}
+          {compact && totalClaps > 0 && (
+            <div className="absolute -top-2 -right-2 bg-brand text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-sm">
+              {totalClaps}
+            </div>
+          )}
         </button>
 
-        {/* Floating Numbers */}
+        {/* Floating Numbers (Explosion effect) */}
         <AnimatePresence>
           {clicks.map((click) => (
             <motion.div
               key={click.id}
-              initial={{ opacity: 1, y: click.y - 20, x: click.x - 10, scale: 0.5 }}
-              animate={{ opacity: 0, y: click.y - 80, scale: 1.2 }}
+              initial={{ opacity: 1, y: click.y - 20, x: click.x - 10, scale: 0.5, rotate: Math.random() * 40 - 20 }}
+              animate={{ opacity: 0, y: click.y - 120, x: click.x + (Math.random() * 40 - 20), scale: 1.5 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="absolute pointer-events-none font-black text-brand text-lg z-20"
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="absolute pointer-events-none font-black text-brand text-xl z-20 drop-shadow-md"
             >
               +{userClaps}
             </motion.div>
@@ -158,22 +166,24 @@ export default function ClapButton({ postId, initialClaps }: ClapButtonProps) {
         {/* Pulse Effect */}
         {isAnimating && (
           <motion.div
-            className="absolute inset-0 rounded-full bg-brand/30 z-0"
-            initial={{ scale: 1, opacity: 0.8 }}
-            animate={{ scale: 2, opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            className="absolute inset-0 rounded-full bg-brand/40 z-0"
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{ scale: 2.5, opacity: 0 }}
+            transition={{ duration: 0.7 }}
           />
         )}
       </div>
       
-      <div>
-        <p className="text-sm font-black text-primary leading-none">
-          {totalClaps.toLocaleString("id-ID")}
-        </p>
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-          Apresiasi
-        </p>
-      </div>
+      {!compact && (
+        <div>
+          <p className="text-sm font-black text-primary leading-none">
+            {totalClaps.toLocaleString("id-ID")}
+          </p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+            Apresiasi
+          </p>
+        </div>
+      )}
     </div>
   );
 }
