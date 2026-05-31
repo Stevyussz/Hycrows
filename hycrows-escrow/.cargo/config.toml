@@ -1,0 +1,5 @@
+[target.wasm32v1-none]
+rustflags = [
+  "-C", "target-feature=+sign-ext",
+  "-C", "link-arg=--export-memory",
+]
