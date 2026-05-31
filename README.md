@@ -16,6 +16,13 @@ In the fast-growing digital economy, peer-to-peer (P2P) commerce suffers from a 
 - **Current escrow solutions** are centralized, charge high fees, and rely heavily on slow human moderation. 
 - **Griefing Attacks**: In traditional crypto escrows, malicious buyers can infinitely stall a seller's payment by opening fake disputes with zero consequences, effectively locking the seller's funds hostage.
 
+## 🟢 Live Deployments (Stellar Testnet)
+The HyCrows smart contract is currently live on the Stellar Testnet. You can interact with it directly or through our frontend dashboard.
+
+- **Smart Contract ID**: [`CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH`](https://stellar.expert/explorer/testnet/contract/CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH)
+- **Treasury (Admin) Address**: `GAMEKOSPGM6NWVOWUQI7NOF2K7TV5LTQCMWN5HCTNNUEOQ6PQEZ7JWPV`
+- **Supported Token**: XLM Native (`CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`)
+
 ## 🚀 What It Does
 **HyCrows Escrow Protocol** solves this by introducing a fully decentralized, hybrid-automated smart contract escrow system on the Stellar network. 
 
