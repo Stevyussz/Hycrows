@@ -1,47 +1,67 @@
-# 🦅 HyCrows Escrow Protocol
-
-**HyCrows** is a modern, hybrid automated escrow protocol built on the Stellar network using Soroban Smart Contracts. It facilitates secure transactions between buyers and sellers with an integrated anti-griefing staking mechanism and a decentralized dispute resolution system.
-
-This repository contains both the **Soroban Smart Contract** (`hycrows-escrow`) and the **Next.js Dashboard** (`hycrows-dashboard`).
-
-![HyCrows Protocol](https://img.shields.io/badge/Network-Stellar%20Testnet-blue) ![Soroban SDK](https://img.shields.io/badge/Soroban%20SDK-v26-orange) ![Next.js](https://img.shields.io/badge/Next.js-14-black)
+<div align="center">
+  <img src="https://img.shields.io/badge/Network-Stellar%20Testnet-blue" alt="Stellar Testnet" />
+  <img src="https://img.shields.io/badge/Soroban%20SDK-v26-orange" alt="Soroban v26" />
+  <img src="https://img.shields.io/badge/Frontend-Next.js%2014-black" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Language-Rust-red" alt="Rust" />
+  <h1>🦅 HyCrows Escrow Protocol</h1>
+  <p><strong>A Trustless, Automated Web3 Escrow with Anti-Griefing Mechanisms built on Stellar Soroban.</strong></p>
+</div>
 
 ---
 
-## 🏗 System Architecture
+## 💡 Inspiration: The Problem
+In the fast-growing digital economy, peer-to-peer (P2P) commerce suffers from a massive **trust deficit**. 
+- **Buyers** are afraid to send money first in fear of getting scammed.
+- **Sellers** are afraid to send digital goods or services without upfront payment.
+- **Current escrow solutions** are centralized, charge high fees, and rely heavily on slow human moderation. 
+- **Griefing Attacks**: In traditional crypto escrows, malicious buyers can infinitely stall a seller's payment by opening fake disputes with zero consequences, effectively locking the seller's funds hostage.
+
+## 🚀 What It Does
+**HyCrows Escrow Protocol** solves this by introducing a fully decentralized, hybrid-automated smart contract escrow system on the Stellar network. 
+
+It acts as a neutral, trustless middleman holding the funds securely on-chain until the transaction is successfully completed. What makes HyCrows unique is its **Anti-Griefing Staking Mechanism** and its **Off-chain Chat Room integration**.
+
+### 🔥 Key Features
+1. **Automated Escrow with Time-Locks**: Once a seller marks an item as "Shipped", a 24-hour timer starts. If the buyer goes silent, anyone can trigger the `auto_release_funds` function, ensuring the seller gets paid. No more funds locked forever due to unresponsive buyers.
+2. **Anti-Griefing Dispute Stake**: To prevent malicious buyers from spamming disputes to stall payments, opening a dispute requires the buyer to stake **2 XLM**. 
+   - If the buyer is right, they get a full refund + their stake back.
+   - If the buyer is lying (Seller wins), the seller gets paid, and the buyer's 2 XLM stake is sent to the **HyCrows Treasury**. This makes griefing financially punishing.
+3. **Decentralized Chat Room**: A built-in communication hub tied directly to the Transaction ID, allowing the Buyer, Seller, and Admin to share evidence and resolve disputes without leaving the platform.
+4. **Persistent On-Chain Storage**: Built using Soroban's advanced `extend_ttl` logic, ensuring transaction data survives on the ledger for up to a year without being archived.
+
+---
+
+## 🛠 How We Built It (Tech Stack)
 
 The HyCrows ecosystem is composed of two main modules:
 
-1. **`hycrows-escrow/` (Smart Contract)**
-   - Written in **Rust**.
-   - Built on **Soroban SDK v26** (Protocol version 26).
-   - Manages the state machine of transactions (Pending → Shipped → Resolved / Disputed → Refunded).
-   - Features persistent TTL extension, preventing storage archiving on the Stellar ledger.
-   - Emits structured Soroban Events for easy indexing.
+### 1. `hycrows-escrow/` (Smart Contract)
+- **Language**: Rust
+- **Framework**: Soroban SDK v26 (Protocol Version 26)
+- **Features**: Event-driven architecture using the `#[contractevent]` macro, rigorous state machine enforcement, and dynamic Time-to-Live (TTL) storage extension to prevent state archiving. Fully unit-tested (10/10 passing tests).
 
-2. **`hycrows-dashboard/` (Frontend Application)**
-   - Built with **Next.js** and **Tailwind CSS**.
-   - Integrates with `@stellar/freighter-api` for seamless wallet connectivity.
-   - Connects to the contract via `@stellar/stellar-sdk`.
-   - Includes a real-time polling **Chat Room** for transaction participants (Buyer, Seller, Admin) to communicate off-chain.
+### 2. `hycrows-dashboard/` (Frontend Application)
+- **Framework**: Next.js 14, React, Tailwind CSS
+- **Web3 Integration**: `@stellar/freighter-api` for wallet connectivity and signing, and `@stellar/stellar-sdk` for reading contract state via gas-free RPC simulations (`simulateTransaction`).
+- **Real-time UX**: Implements a 3-second polling mechanism for the Chat Room, optimistic UI updates, and role-based access control (differentiating UI for Buyer, Seller, and Admin).
 
 ---
 
-## 🔄 Transaction Lifecycle (State Machine)
+## 🔄 How It Works (Transaction Flow)
 
-1. **Deposit (Pending)**: The Buyer initiates an escrow by depositing XLM. Funds are securely locked in the smart contract.
-2. **Mark as Shipped (Shipped)**: The Seller fulfills the service/product and marks it as shipped. A 24-hour timer starts.
-3. **Completion (Resolved)**: 
-   - **Happy Path**: The Buyer confirms receipt, releasing funds to the Seller.
-   - **Auto-Release**: If 24 hours pass without Buyer response, anyone can trigger `auto_release_funds` to pay the Seller.
-4. **Dispute (Disputed)**: The Buyer can open a dispute by staking a **2 XLM** anti-griefing fee. Funds are frozen.
-5. **Resolution (Admin Review)**: The HyCrows Treasury (Admin) reviews the case (via the Chat Room) and resolves it:
-   - **Buyer Wins (Refunded)**: Buyer gets their principal deposit + the 2 XLM stake back.
-   - **Seller Wins (Resolved)**: Seller receives the principal deposit. The 2 XLM stake is sent to the HyCrows Treasury.
+1. **Deposit (Status: Pending)**: The Buyer initiates an escrow by depositing XLM. Funds are securely locked in the smart contract.
+2. **Fulfillment (Status: Shipped)**: The Seller fulfills the service/product and marks it as shipped. A 24-hour countdown begins.
+3. **Completion (Status: Resolved)**: 
+   - **Happy Path**: The Buyer confirms receipt, instantly releasing funds to the Seller.
+   - **Auto-Release**: If 24 hours pass without Buyer response, the protocol automatically releases funds to the Seller.
+4. **Dispute (Status: Disputed)**: If something goes wrong, the Buyer can open a dispute by staking a **2 XLM** anti-griefing fee. Funds are frozen. Both parties submit evidence in the Chat Room.
+5. **Resolution (Status: Refunded / Resolved)**: The HyCrows Admin reviews the evidence and resolves the case:
+   - **Buyer Wins**: Buyer gets their principal deposit + the 2 XLM stake back.
+   - **Seller Wins**: Seller receives the principal deposit. The 2 XLM stake is slashed and sent to the HyCrows Treasury.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started & Local Setup
 
 ### Prerequisites
 - [Rust](https://rustup.rs/) (v1.84+ recommended with `wasm32v1-none` target)
@@ -63,19 +83,19 @@ cargo build --target wasm32v1-none --release
 # Run unit tests
 cargo test
 
-# Deploy to Stellar Testnet (Requires a funded identity, e.g., 'deployer')
+# Deploy to Stellar Testnet
 stellar contract deploy \
   --wasm target/wasm32v1-none/release/hycrows_escrow.wasm \
   --network testnet \
-  --source deployer
+  --source <YOUR_FUNDED_KEY>
 ```
 
 After deployment, initialize the contract with the Admin address and the native XLM token address:
 ```bash
 stellar contract invoke \
-  --id <YOUR_CONTRACT_ID> \
+  --id <YOUR_NEW_CONTRACT_ID> \
   --network testnet \
-  --source deployer \
+  --source <YOUR_FUNDED_KEY> \
   -- initialize \
   --admin_address <ADMIN_ADDRESS> \
   --token_address CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
@@ -90,25 +110,17 @@ cd hycrows-dashboard
 npm install
 
 # Set up your environment variables
-# Edit the .env.local file and replace the NEXT_PUBLIC_CONTRACT_ID
+# Replace the NEXT_PUBLIC_CONTRACT_ID in .env.local with your new Contract ID
 cp .env.example .env.local
 
 # Run the development server
 npm run dev
 ```
-Open `http://localhost:3000` in your browser to interact with the protocol.
+Open `http://localhost:3000` in your browser to interact with the protocol!
 
 ---
 
-## 🔒 Security & Best Practices
-- **Anti-Griefing Mechanism**: The 2 XLM dispute stake deters buyers from opening frivolous disputes to stall seller payouts.
-- **Strict Authorization**: `require_auth()` is strictly enforced on all state-mutating functions (`deposit`, `mark_as_shipped`, `resolve_dispute`, etc.).
-- **Read-only Simulation**: The dashboard utilizes Stellar RPC simulation `simulateTransaction` for gas-free read operations (e.g., fetching transaction states).
-- **Persistent Data**: The contract actively extends ledger Entry TTL limits upon reading and writing, keeping transaction records accessible for ~1 year without restoration fees.
-
----
-
-## 📄 License
-This project is proprietary software belonging to Duta Persada Nusantara (HyCrows Protocol).
+## 🏆 Hackathon Notes
+We built HyCrows because we noticed a critical flaw in traditional crypto escrows: *griefing*. By leveraging Soroban's highly efficient smart contracts and the speed of the Stellar network, we've created an escrow protocol that protects both buyers and sellers while ensuring bad actors are financially penalized. 
 
 Built with 💜 for the Stellar ecosystem.
