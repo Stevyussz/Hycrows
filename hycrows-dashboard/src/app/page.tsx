@@ -74,13 +74,13 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg">
-            Trustless escrow protocol di Stellar Soroban. Anti-griefing staking,
-            auto-release otomatis, resolusi sengketa on-chain.
+            A trustless escrow protocol on Stellar Soroban. Featuring anti-griefing staking, 
+            automated time-locks, and on-chain dispute resolution.
           </p>
 
           {/* Contract ID */}
-          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm">
-            <span className="text-xs text-slate-500">Contract:</span>
+          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow transition-shadow">
+            <span className="text-xs text-slate-500 font-medium">Contract:</span>
             <span className="font-mono text-xs text-slate-700">
               {CONTRACT_ID.slice(0, 8)}…{CONTRACT_ID.slice(-6)}
             </span>
@@ -88,7 +88,7 @@ export default function Home() {
               onClick={copyContract}
               className="text-slate-400 hover:text-violet-600 transition-colors"
             >
-              {copied ? <CheckCircle size={13} className="text-emerald-400" /> : <Copy size={13} />}
+              {copied ? <CheckCircle size={14} className="text-emerald-500" /> : <Copy size={14} />}
             </button>
           </div>
         </div>
@@ -97,33 +97,33 @@ export default function Home() {
         <div className="grid sm:grid-cols-3 gap-4 mb-12">
           {[
             {
-              icon: <Shield className="text-violet-400" size={20} />,
+              icon: <Shield className="text-violet-500" size={22} />,
               title: "Anti-Griefing Stake",
-              desc: "2 XLM stake wajib saat buka dispute. Mencegah spam & melindungi seller.",
+              desc: "A 2 XLM stake is required to open a dispute, preventing spam and protecting sellers.",
               color: "bg-white",
               border: "border-slate-200",
             },
             {
-              icon: <Zap className="text-emerald-400" size={20} />,
-              title: "Auto-Release 24 Jam",
-              desc: "Dana otomatis ke seller 24 jam setelah shipped jika buyer tidak respons.",
+              icon: <Zap className="text-emerald-500" size={22} />,
+              title: "24-Hour Auto-Release",
+              desc: "Funds automatically release to the seller 24 hours after shipment if the buyer is unresponsive.",
               color: "bg-white",
               border: "border-slate-200",
             },
             {
-              icon: <Scale className="text-amber-400" size={20} />,
-              title: "Resolusi On-Chain",
-              desc: "Semua keputusan tercatat permanen di blockchain. Transparan & immutable.",
+              icon: <Scale className="text-amber-500" size={22} />,
+              title: "On-Chain Resolution",
+              desc: "All administrative decisions are permanently recorded on the blockchain. Transparent and immutable.",
               color: "bg-white",
               border: "border-slate-200",
             },
           ].map((f) => (
             <div
               key={f.title}
-              className={`bg-white border ${f.border} shadow-sm rounded-2xl p-5 hover:border-violet-300 transition-colors`}
+              className={`bg-white/60 backdrop-blur-sm border ${f.border} shadow-sm rounded-2xl p-6 hover:border-violet-300 hover:shadow-md transition-all duration-300`}
             >
-              <div className="mb-3">{f.icon}</div>
-              <h3 className="font-bold text-slate-900 text-sm mb-1.5">{f.title}</h3>
+              <div className="mb-4 bg-slate-50 w-10 h-10 rounded-xl flex items-center justify-center border border-slate-100">{f.icon}</div>
+              <h3 className="font-bold text-slate-900 text-sm mb-2">{f.title}</h3>
               <p className="text-slate-600 text-xs leading-relaxed">{f.desc}</p>
             </div>
           ))}
@@ -133,24 +133,24 @@ export default function Home() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left: Actions */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="glass rounded-2xl p-5">
+            <div className="bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm rounded-2xl p-6">
               <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs">1</span>
+                <span className="w-6 h-6 rounded-lg bg-violet-100 flex items-center justify-center text-violet-600 text-xs font-bold">1</span>
                 Connect Wallet
               </h2>
               {!address ? (
-                <div className="text-center py-4">
-                  <p className="text-sm text-slate-600 mb-4">
-                    Connect Freighter Wallet untuk mulai bertransaksi.
+                <div className="text-center py-5">
+                  <p className="text-sm text-slate-600 mb-5">
+                    Connect your Freighter Wallet to start transacting securely.
                   </p>
-                  <WalletButton />
-                  <p className="text-xs text-slate-500 mt-3">
-                    Belum punya?{" "}
+                  <div className="flex justify-center"><WalletButton /></div>
+                  <p className="text-xs text-slate-500 mt-4">
+                    Don't have one?{" "}
                     <a
                       href="https://www.freighter.app/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-violet-600 underline"
+                      className="text-violet-600 font-medium hover:underline"
                     >
                       Install Freighter
                     </a>
@@ -158,12 +158,12 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                    <p className="text-xs text-slate-500 mb-1">Connected as</p>
-                    <p className="font-mono text-xs text-emerald-700 break-all">{address}</p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <p className="text-xs text-slate-500 mb-1.5 font-medium">Connected as</p>
+                    <p className="font-mono text-xs text-emerald-700 break-all bg-emerald-50 p-2 rounded border border-emerald-100">{address}</p>
                     {address === ADMIN_ADDRESS && (
-                      <span className="mt-2 inline-block text-xs bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-full">
-                        👑 Admin
+                      <span className="mt-3 inline-flex items-center gap-1.5 text-xs bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-bold">
+                        👑 Treasury Admin
                       </span>
                     )}
                   </div>
@@ -173,14 +173,13 @@ export default function Home() {
 
             {/* Create Escrow */}
             {address && (
-              <div className="glass rounded-2xl p-5">
+              <div className="bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm rounded-2xl p-6">
                 <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs">2</span>
-                  Buat Escrow
+                  <span className="w-6 h-6 rounded-lg bg-violet-100 flex items-center justify-center text-violet-600 text-xs font-bold">2</span>
+                  Create Escrow
                 </h2>
-                <p className="text-xs text-slate-600 mb-4 leading-relaxed">
-                  Lock XLM sebagai buyer. Dana aman di smart contract sampai
-                  seller kirim dan kamu konfirmasi.
+                <p className="text-xs text-slate-600 mb-5 leading-relaxed">
+                  Lock XLM as a buyer. Your funds are safely held in the smart contract until the seller delivers and you confirm receipt.
                 </p>
                 <DepositForm onSuccess={(txnId) => {
                   setActiveTxnId(txnId);
@@ -190,19 +189,19 @@ export default function Home() {
             )}
 
             {/* Network Info */}
-            <div className="glass rounded-2xl p-5">
-              <h3 className="font-semibold text-slate-900 text-sm mb-3">Network Info</h3>
-              <div className="space-y-2 text-xs">
+            <div className="bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm rounded-2xl p-6">
+              <h3 className="font-semibold text-slate-900 text-sm mb-4">Network Configuration</h3>
+              <div className="space-y-3 text-xs">
                 {[
-                  { label: "Network", value: "Testnet" },
-                  { label: "Protocol", value: "22" },
+                  { label: "Network", value: "Stellar Testnet" },
+                  { label: "Protocol", value: "Version 26" },
                   { label: "SDK", value: "soroban-sdk v26" },
-                  { label: "Stake Dispute", value: "2 XLM" },
-                  { label: "Auto-Release", value: "24 jam" },
+                  { label: "Dispute Stake", value: "2 XLM" },
+                  { label: "Auto-Release", value: "24 Hours" },
                 ].map(({ label, value }) => (
-                  <div key={label} className="flex justify-between text-slate-500">
+                  <div key={label} className="flex justify-between text-slate-500 border-b border-slate-50 pb-2 last:border-0 last:pb-0">
                     <span>{label}</span>
-                    <span className="text-slate-700 font-medium">{value}</span>
+                    <span className="text-slate-700 font-semibold">{value}</span>
                   </div>
                 ))}
               </div>
@@ -211,27 +210,27 @@ export default function Home() {
 
           {/* Right: Lookup */}
           <div className="lg:col-span-2">
-            <div className="glass rounded-2xl p-5">
-              <div className="flex items-center gap-3 mb-5">
+            <div className="bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm rounded-2xl p-6 min-h-full">
+              <div className="flex items-center gap-4 mb-6 border-b border-slate-100">
                 <button
                   onClick={() => setTab("lookup")}
-                  className={`text-sm font-semibold pb-1 border-b-2 transition-colors ${
+                  className={`text-sm font-semibold pb-3 px-1 border-b-2 transition-colors ${
                     tab === "lookup"
                       ? "border-violet-600 text-violet-600"
                       : "border-transparent text-slate-500 hover:text-slate-800"
                   }`}
                 >
-                  Cari Transaksi
+                  Find Transaction
                 </button>
                 <button
                   onClick={() => setTab("about")}
-                  className={`text-sm font-semibold pb-1 border-b-2 transition-colors ${
+                  className={`text-sm font-semibold pb-3 px-1 border-b-2 transition-colors ${
                     tab === "about"
                       ? "border-violet-600 text-violet-600"
                       : "border-transparent text-slate-500 hover:text-slate-800"
                   }`}
                 >
-                  Alur Escrow
+                  Protocol Flow
                 </button>
               </div>
               {tab === "lookup" && <LookupPanel autoFetchId={activeTxnId} />}
@@ -239,7 +238,6 @@ export default function Home() {
               {tab === "about" && (
                 <div className="space-y-4">
                   {(() => {
-                    // Static class map — wajib ada agar tidak dipurge Tailwind saat build production
                     const stepColors: Record<string, { badge: string; dot: string }> = {
                       violet: { badge: "bg-violet-100 text-violet-600 border-violet-200", dot: "bg-violet-500" },
                       blue:   { badge: "bg-blue-100 text-blue-600 border-blue-200",       dot: "bg-blue-500" },
@@ -251,42 +249,42 @@ export default function Home() {
                     return [
                       {
                         step: "1", actor: "Buyer", color: "violet",
-                        title: "Deposit Escrow",
-                        desc: 'Buyer lock XLM ke smart contract. Status jadi "Pending". Dana aman di kontrak hingga flow selesai.',
+                        title: "Deposit into Escrow",
+                        desc: 'Buyer locks XLM into the smart contract. Status becomes "Pending". Funds are safely held on-chain.',
                       },
                       {
                         step: "2", actor: "Seller", color: "blue",
                         title: "Mark as Shipped",
-                        desc: 'Seller kirim barang/jasa, lalu mark shipped. Status jadi "Shipped". Timer 24 jam mulai berjalan.',
+                        desc: 'Seller delivers the goods/services and marks them as shipped. Status becomes "Shipped". A 24-hour countdown begins.',
                       },
                       {
                         step: "3A", actor: "Buyer", color: "emerald",
                         title: "Confirm Receipt",
-                        desc: 'Buyer puas → konfirmasi terima. Dana langsung ke seller. Status "Resolved". Selesai!',
+                        desc: 'Happy path! The buyer confirms receipt, instantly releasing funds to the seller. Status becomes "Resolved".',
                       },
                       {
-                        step: "3B", actor: "Siapapun", color: "amber",
-                        title: "Auto Release (24 jam)",
-                        desc: "Jika buyer tidak respons 24 jam, siapapun bisa trigger auto-release. Dana ke seller otomatis.",
+                        step: "3B", actor: "Anyone", color: "amber",
+                        title: "Automated Release",
+                        desc: "If the buyer is unresponsive for 24 hours after shipment, anyone can trigger the auto-release to pay the seller.",
                       },
                       {
                         step: "3C", actor: "Buyer", color: "red",
-                        title: "Open Dispute (+2 XLM stake)",
-                        desc: "Buyer tidak puas? Buka dispute + 2 XLM stake. Diskusi via Chat Room dengan admin & seller.",
+                        title: "Open Dispute (+2 XLM Stake)",
+                        desc: "Unsatisfied? The buyer can open a dispute by staking a 2 XLM anti-griefing fee. Both parties discuss via the Chat Room.",
                       },
                       {
                         step: "4", actor: "Admin", color: "purple",
                         title: "Resolve Dispute",
-                        desc: "Admin review chat & putuskan. Buyer menang: refund + stake kembali. Seller menang: dapat dana, stake ke treasury.",
+                        desc: "The Treasury Admin reviews the Chat Room evidence. If the buyer wins, they get a full refund + stake back. If the seller wins, the seller gets paid and the stake is slashed.",
                       },
                     ].map((s) => (
-                      <div key={s.step} className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors">
-                        <div className={`w-8 h-8 shrink-0 rounded-lg border flex items-center justify-center font-bold text-sm ${stepColors[s.color]?.badge ?? "bg-slate-100 text-slate-600 border-slate-200"}`}>
+                      <div key={s.step} className="flex gap-5 p-5 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 hover:bg-white transition-all shadow-sm">
+                        <div className={`w-10 h-10 shrink-0 rounded-xl border flex items-center justify-center font-bold text-base ${stepColors[s.color]?.badge ?? "bg-slate-100 text-slate-600 border-slate-200"}`}>
                           {s.step}
                         </div>
                         <div>
-                          <p className="text-xs text-slate-500 mb-0.5">{s.actor}</p>
-                          <p className="font-semibold text-slate-900 text-sm mb-1">{s.title}</p>
+                          <p className="text-[11px] uppercase tracking-wider text-slate-400 font-bold mb-1">{s.actor}</p>
+                          <p className="font-bold text-slate-900 text-sm mb-1.5">{s.title}</p>
                           <p className="text-xs text-slate-600 leading-relaxed">{s.desc}</p>
                         </div>
                       </div>

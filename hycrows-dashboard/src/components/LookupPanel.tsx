@@ -16,12 +16,12 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
   const [txn,      setTxn]      = useState<EscrowTransaction | null>(null);
   const [loading,  setLoading]  = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false); // beda dari loading awal
+  const [isRefreshing, setIsRefreshing] = useState(false); 
 
   /**
-   * Fetch transaksi by ID.
-   * @param id - ID transaksi
-   * @param isRefresh - true = jangan reset txn ke null (preserve UI saat refresh)
+   * Fetch transaction by ID.
+   * @param id - Transaction ID
+   * @param isRefresh - true = don't reset txn to null (preserve UI during refresh)
    */
   const fetchById = useCallback(async (id: string, isRefresh = false) => {
     if (!id) return;
@@ -31,7 +31,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
     } else {
       setLoading(true);
       setNotFound(false);
-      setTxn(null); // Hanya reset saat fresh search, bukan saat refresh
+      setTxn(null); // Only reset on fresh search, not on refresh
     }
 
     try {
@@ -40,7 +40,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
         setTxn(result);
         setNotFound(false);
       } else {
-        if (!isRefresh) setNotFound(true); // Jangan ubah notFound saat refresh
+        if (!isRefresh) setNotFound(true); 
       }
     } catch {
       if (!isRefresh) setNotFound(true);
@@ -50,7 +50,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
     }
   }, []);
 
-  // Auto-fetch saat DepositForm sukses
+  // Auto-fetch when DepositForm succeeds
   useEffect(() => {
     if (autoFetchId) {
       setTxnId(autoFetchId);
@@ -68,53 +68,57 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5 animate-in fade-in duration-300">
       {/* Search bar */}
-      <form onSubmit={handleLookup} className="flex gap-2">
-        <input
-          type="number"
-          min={1}
-          placeholder="Cari Transaction ID…"
-          value={txnId}
-          onChange={(e) => setTxnId(e.target.value)}
-          className="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-sm shadow-sm"
-        />
+      <form onSubmit={handleLookup} className="flex gap-2.5">
+        <div className="relative flex-1">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <Search size={16} />
+          </div>
+          <input
+            type="number"
+            min={1}
+            placeholder="Search Transaction ID…"
+            value={txnId}
+            onChange={(e) => setTxnId(e.target.value)}
+            className="w-full bg-white border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 text-sm shadow-sm transition-all"
+          />
+        </div>
         <button
           type="submit"
           disabled={loading || !txnId}
-          className="px-4 py-2.5 rounded-xl bg-slate-100 border border-slate-200 hover:bg-slate-200 disabled:opacity-50 text-slate-700 font-medium transition-colors flex items-center gap-2 text-sm shadow-sm"
+          className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold transition-all shadow-md shadow-slate-900/10 flex items-center gap-2 text-sm"
         >
-          {loading ? <Loader2 size={15} className="animate-spin" /> : <Search size={15} />}
-          Cari
+          {loading ? <Loader2 size={16} className="animate-spin" /> : "Lookup"}
         </button>
       </form>
 
       {notFound && !txn && (
-        <p className="text-sm text-slate-500 text-center py-4">
-          Transaksi tidak ditemukan untuk ID <span className="font-mono font-semibold">{txnId}</span>.
-        </p>
+        <div className="bg-red-50 border border-red-100 rounded-xl p-6 text-center animate-in slide-in-from-top-2">
+          <p className="text-sm text-red-600 font-medium">
+            Transaction not found for ID <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded">{txnId}</span>.
+          </p>
+        </div>
       )}
 
       {txn && (
-        <div className="space-y-4">
-          {/* Indikator refresh — tampil overlay tipis, tidak hapus konten */}
+        <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
+          {/* Refresh indicator — minimal overlay, doesn't wipe content */}
           {isRefreshing && (
-            <div className="flex items-center gap-2 text-xs text-slate-500 animate-pulse">
+            <div className="flex items-center gap-2 text-xs text-violet-600 bg-violet-50 border border-violet-100 w-fit px-3 py-1.5 rounded-full font-bold shadow-sm">
               <RefreshCw size={12} className="animate-spin" />
-              Memperbarui data…
+              Updating data…
             </div>
           )}
 
-          <div className="grid lg:grid-cols-2 gap-4">
+          <div className="grid lg:grid-cols-2 gap-5">
             <div>
               <TransactionCard
                 txn={txn}
-                // Refresh = preserve mode, data tetap terlihat selama fetch
                 onRefresh={handleRefresh}
               />
             </div>
             <div>
-              {/* Kirim status ke ChatRoom agar bisa read-only saat transaksi final */}
               <ChatRoom
                 txnId={Number(txn.transaction_id)}
                 buyer={txn.buyer}
