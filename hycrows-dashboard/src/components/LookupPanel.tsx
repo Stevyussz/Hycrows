@@ -22,12 +22,13 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
    * Fetch transaction by ID.
    * @param id - Transaction ID
    * @param isRefresh - true = don't reset txn to null (preserve UI during refresh)
+   * @param isSilent - true = don't show the "Updating data..." UI indicator
    */
-  const fetchById = useCallback(async (id: string, isRefresh = false) => {
+  const fetchById = useCallback(async (id: string, isRefresh = false, isSilent = false) => {
     if (!id) return;
 
     if (isRefresh) {
-      setIsRefreshing(true);
+      if (!isSilent) setIsRefreshing(true);
     } else {
       setLoading(true);
       setNotFound(false);
@@ -46,7 +47,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
       if (!isRefresh) setNotFound(true);
     } finally {
       setLoading(false);
-      setIsRefreshing(false);
+      setIsRefreshing(false); // Can safely reset since it won't hurt silent mode
     }
   }, []);
 
@@ -59,13 +60,22 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
     }
   }, [autoFetchId, fetchById]);
 
+  // Real-time silent background polling every 5 seconds
+  useEffect(() => {
+    if (!txn) return;
+    const interval = setInterval(() => {
+      fetchById(String(txn.transaction_id), true, true);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [txn?.transaction_id, fetchById]);
+
   function handleLookup(e: React.FormEvent) {
     e.preventDefault();
     fetchById(txnId, false); // Fresh search → reset UI
   }
 
   function handleRefresh() {
-    if (txn) fetchById(String(txn.transaction_id), true); // Refresh → preserve UI
+    if (txn) fetchById(String(txn.transaction_id), true, false); // Manual Refresh → preserve UI, show indicator
   }
 
   return (
