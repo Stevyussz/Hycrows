@@ -30,11 +30,19 @@ In the fast-growing digital economy, peer-to-peer (P2P) commerce suffers from a 
 - **Current escrow solutions** are centralized, charge high fees, and rely heavily on slow human moderation. 
 - **Griefing Attacks**: In traditional crypto escrows, malicious buyers can infinitely stall a seller's payment by opening fake disputes with zero consequences, effectively locking the seller's funds hostage.
 
+## 🧑‍⚖️ For Judges: How to Test Admin Resolution
+To fully evaluate the protocol, you can test the **Admin Dispute Resolution** without needing to deploy your own contract. We have created a dedicated Testnet Treasury account for this hackathon:
+1. Open your **Freighter Wallet** extension.
+2. Click **Settings -> Manage accounts -> Import a Stellar secret key**.
+3. Paste the following Testnet Secret Key: 
+   `SAGV7T6W5VSGSOGFVNPRUIZ3BGOSL7ZSOY32WD2ZXQIVDSJLQIE6VQLF`
+4. Connect this imported wallet to the HyCrows Dashboard. The UI will automatically detect you as the Admin and unlock the **Admin Resolution Dashboard** and dispute override buttons!
+
 ## 🟢 Live Deployments (Stellar Testnet)
 The HyCrows smart contract is currently live on the Stellar Testnet. You can interact with it directly or through our frontend dashboard.
 
-- **Smart Contract ID**: [`CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH`](https://stellar.expert/explorer/testnet/contract/CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH)
-- **Treasury (Admin) Address**: `GAMEKOSPGM6NWVOWUQI7NOF2K7TV5LTQCMWN5HCTNNUEOQ6PQEZ7JWPV`
+- **Smart Contract ID**: [`CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD`](https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD)
+- **Treasury (Admin) Address**: `GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54`
 - **Supported Token**: XLM Native (`CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`)
 
 ## 🚀 What It Does

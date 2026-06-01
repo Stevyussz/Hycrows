@@ -75,6 +75,13 @@ export default function DepositForm({ onSuccess }: Props) {
       );
       const submittedTxnId = form.txnId;
       setTxHash(hash);
+      // Notify Admin Tracker
+      fetch("/api/tracker", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ txnId: submittedTxnId }),
+      }).catch(console.error);
+
       setForm({ txnId: "", seller: "", amount: "" });
       setTimeout(() => {
         onSuccess(submittedTxnId);

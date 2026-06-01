@@ -40,6 +40,12 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
       if (result) {
         setTxn(result);
         setNotFound(false);
+        // Notify Admin Tracker (fire and forget)
+        fetch("/api/tracker", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ txnId: id }),
+        }).catch(() => {});
       } else {
         if (!isRefresh) setNotFound(true); 
       }

@@ -10,7 +10,42 @@ import { CONTRACT_ID, ADMIN_ADDRESS } from "@/lib/stellar";
 import {
   Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+function AdminTrackerList({ onSelectTxn }: { onSelectTxn: (id: string) => void }) {
+  const [ids, setIds] = useState<number[]>([]);
+  
+  useEffect(() => {
+    const fetchIds = async () => {
+      try {
+        const res = await fetch("/api/tracker");
+        const data = await res.json();
+        if (data.activeEscrows) {
+          setIds(data.activeEscrows);
+        }
+      } catch (e) {}
+    };
+    fetchIds();
+    const interval = setInterval(fetchIds, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (ids.length === 0) return <div className="text-xs text-amber-700 italic">No recent transactions tracked.</div>;
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {ids.map(id => (
+        <button 
+          key={id} 
+          onClick={() => onSelectTxn(id.toString())}
+          className="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-md transition-colors border border-amber-300"
+        >
+          #{id}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
   const { address } = useWallet();
@@ -209,6 +244,25 @@ export default function Home() {
                   setActiveTxnId(txnId);
                   setTab("lookup");
                 }} />
+              </div>
+            )}
+
+            {/* Admin Tracker Info */}
+            {address === ADMIN_ADDRESS && (
+              <div className="bg-amber-50/80 backdrop-blur-xl border border-amber-200 shadow-sm rounded-2xl p-6 mb-6">
+                <h2 className="font-bold text-amber-900 mb-4 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-amber-200 flex items-center justify-center text-amber-700 text-xs font-bold">👑</span>
+                  Admin Dashboard
+                </h2>
+                <p className="text-xs text-amber-800 mb-4 leading-relaxed">
+                  You are connected as the Treasury Admin. Below are recently tracked transactions on this website.
+                </p>
+                <div className="space-y-2">
+                  <AdminTrackerList onSelectTxn={(id) => {
+                    setActiveTxnId(id);
+                    setTab("lookup");
+                  }} />
+                </div>
               </div>
             )}
 

@@ -1,0 +1,77 @@
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/app/page.tsx
+  171:24  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/ChatRoom.tsx
+  51:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/ChatRoom.tsx:51:5
+  49 |
+  50 |   useEffect(() => {
+> 51 |     fetchMessages();
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  52 |     const interval = setInterval(fetchMessages, 3000);
+  53 |     return () => clearInterval(interval);
+  54 |   }, [fetchMessages]);  react-hooks/set-state-in-effect
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/DepositForm.tsx
+  28:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/DepositForm.tsx:28:21
+  26 |   const [mounted, setMounted] = useState(false);
+  27 |
+> 28 |   useEffect(() => { setMounted(true); }, []);
+     |                     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |
+  30 |   // Reset when modal opens
+  31 |   function openModal() {  react-hooks/set-state-in-effect
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/LookupPanel.tsx
+  56:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/LookupPanel.tsx:56:7
+  54 |   useEffect(() => {
+  55 |     if (autoFetchId) {
+> 56 |       setTxnId(autoFetchId);
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  57 |       fetchById(autoFetchId);
+  58 |     }
+  59 |   }, [autoFetchId, fetchById]);  react-hooks/set-state-in-effect
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/TransactionCard.tsx
+  51:37  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/components/TransactionCard.tsx:51:37
+  49 |   // Auto-release available if >= 24 hours since shipped.
+  50 |   // Using local time as an estimation; contract enforces exact time.
+> 51 |   const nowSecs = BigInt(Math.floor(Date.now() / 1000));
+     |                                     ^^^^^^^^^^ Cannot call impure function
+  52 |   const autoReleaseAvailable =
+  53 |     txn.status === "Shipped" &&
+  54 |     txn.shipped_timestamp > 0n &&  react-hooks/purity
+
+/home/stevyuss_/Documents/my project/WEB3 PROJECT/hycrows-dashboard/src/lib/empty.ts
+  3:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+✖ 6 problems (5 errors, 1 warning)
+
