@@ -14,11 +14,11 @@ import {
 } from "@stellar/stellar-sdk";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
-export const CONTRACT_ID         = process.env.NEXT_PUBLIC_CONTRACT_ID!;
-export const RPC_URL             = process.env.NEXT_PUBLIC_STELLAR_RPC_URL!;
-export const NETWORK_PASSPHRASE  = process.env.NEXT_PUBLIC_STELLAR_PASSPHRASE!;
-export const XLM_SAC             = process.env.NEXT_PUBLIC_XLM_SAC!;
-export const ADMIN_ADDRESS       = process.env.NEXT_PUBLIC_ADMIN_ADDRESS!;
+export const CONTRACT_ID         = process.env.NEXT_PUBLIC_CONTRACT_ID || "CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD";
+export const RPC_URL             = process.env.NEXT_PUBLIC_STELLAR_RPC_URL || "https://soroban-testnet.stellar.org";
+export const NETWORK_PASSPHRASE  = process.env.NEXT_PUBLIC_STELLAR_PASSPHRASE || "Test SDF Network ; September 2015";
+export const XLM_SAC             = process.env.NEXT_PUBLIC_XLM_SAC || "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
+export const ADMIN_ADDRESS       = process.env.NEXT_PUBLIC_ADMIN_ADDRESS || "GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54";
 
 // 1 XLM = 10_000_000 stroops
 export const XLM_DECIMALS = 7;
