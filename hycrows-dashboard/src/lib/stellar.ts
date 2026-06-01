@@ -127,17 +127,22 @@ export async function fetchTransaction(
 
     const native = scValToNative(returnVal) as Record<string, unknown>;
 
-    let parsedStatus: TxStatus = "Pending";
+    const map: Record<string, TxStatus> = {
+      "0": "Pending", "1": "Shipped", "2": "Disputed", "3": "Resolved", "4": "Refunded",
+      "Pending": "Pending", "Shipped": "Shipped", "Disputed": "Disputed", "Resolved": "Resolved", "Refunded": "Refunded"
+    };
+
+    let extractedKey = "Pending";
     const rawStatus = native.status;
+    
     if (typeof rawStatus === "number" || typeof rawStatus === "string") {
-      const map: Record<string, TxStatus> = {
-        "0": "Pending", "1": "Shipped", "2": "Disputed", "3": "Resolved", "4": "Refunded",
-        "Pending": "Pending", "Shipped": "Shipped", "Disputed": "Disputed", "Resolved": "Resolved", "Refunded": "Refunded"
-      };
-      parsedStatus = map[rawStatus.toString()] || "Pending";
+      extractedKey = String(rawStatus);
     } else if (typeof rawStatus === "object" && rawStatus !== null) {
-      parsedStatus = Object.keys(rawStatus)[0] as TxStatus;
+      extractedKey = Object.keys(rawStatus)[0];
     }
+
+    const parsedStatus: TxStatus = map[extractedKey] || "Pending";
+    console.log("[DEBUG] rawStatus:", rawStatus, "extractedKey:", extractedKey, "parsedStatus:", parsedStatus);
 
     return {
       transaction_id:    BigInt(native.transaction_id as string | number),
