@@ -18,26 +18,43 @@ interface ChatMessage {
   timestamp: number;
 }
 
-// ─── File-based DB helpers ────────────────────────────────────────────────────
+// ─── In-Memory DB (Fallback for Vercel Serverless) ──────────────────────────────
+// Vercel uses a read-only filesystem, so fs.writeFileSync will fail.
+// We use a global variable to hold chat messages in memory.
+// Note: This will reset when the Serverless Function goes to sleep (cold start),
+// but it is perfect for a quick hackathon demo video!
 
-function readDB(): ChatMessage[] {
+declare global {
+  var chatDB: ChatMessage[] | undefined;
+}
+
+if (!global.chatDB) {
+  global.chatDB = [];
+  // Try to load from local file once if available (for localhost)
   try {
     if (fs.existsSync(DB_PATH)) {
       const data = fs.readFileSync(DB_PATH, "utf-8");
       const parsed = JSON.parse(data);
-      return Array.isArray(parsed) ? parsed : [];
+      if (Array.isArray(parsed)) {
+        global.chatDB = parsed;
+      }
     }
-  } catch (err) {
-    console.error("Error reading chat DB:", err);
+  } catch (e) {
+    // ignore
   }
-  return [];
+}
+
+function readDB(): ChatMessage[] {
+  return global.chatDB || [];
 }
 
 function writeDB(data: ChatMessage[]) {
+  global.chatDB = data;
+  // Try to persist to disk for localhost, ignore error on Vercel
   try {
     fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), "utf-8");
   } catch (err) {
-    console.error("Error writing chat DB:", err);
+    // Vercel read-only filesystem error is expected here, silently ignore
   }
 }
 
