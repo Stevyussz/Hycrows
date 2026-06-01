@@ -318,7 +318,7 @@ fn test_legitimate_dispute_buyer_wins() {
 
 /// Pastikan kontrak tidak bisa diinisialisasi dua kali.
 #[test]
-#[should_panic(expected = "Eits, kontrak udah diinisialisasi sebelumnya.")]
+#[should_panic(expected = "Contract has already been initialized.")]
 fn test_double_initialize_panics() {
     let (env, contract_id, _admin, token_id) = setup();
     let client = HyCrowsEscrowClient::new(&env, &contract_id);
@@ -330,7 +330,7 @@ fn test_double_initialize_panics() {
 
 /// Pastikan auto_release tidak bisa dijalankan sebelum 24 jam.
 #[test]
-#[should_panic(expected = "Sabar ya, waktu tunggunya belum habis nih. Silakan tunggu bentar lagi.")]
+#[should_panic(expected = "The 24-hour waiting period has not yet elapsed. Please wait.")]
 fn test_auto_release_too_early_panics() {
     let (env, contract_id, _admin, token_id) = setup();
     let client = HyCrowsEscrowClient::new(&env, &contract_id);
@@ -351,7 +351,7 @@ fn test_auto_release_too_early_panics() {
 
 /// Pastikan deposit dengan jumlah nol ditolak.
 #[test]
-#[should_panic(expected = "Jumlah deposit harus lebih dari nol dong.")]
+#[should_panic(expected = "Deposit amount must be greater than zero.")]
 fn test_zero_amount_deposit_panics() {
     let (env, contract_id, _admin, _token_id) = setup();
     let client = HyCrowsEscrowClient::new(&env, &contract_id);
@@ -364,7 +364,7 @@ fn test_zero_amount_deposit_panics() {
 
 /// Pastikan ID transaksi yang duplikat ditolak.
 #[test]
-#[should_panic(expected = "ID Transaksi udah dipakai nih. Tolong pakai ID yang unik ya.")]
+#[should_panic(expected = "Transaction ID already used. Please provide a unique ID.")]
 fn test_duplicate_transaction_id_panics() {
     let (env, contract_id, _admin, token_id) = setup();
     let client = HyCrowsEscrowClient::new(&env, &contract_id);
@@ -386,7 +386,7 @@ fn test_duplicate_transaction_id_panics() {
 
 /// Pastikan hanya penjual yang bisa mark_as_shipped.
 #[test]
-#[should_panic(expected = "Transaksinya harus berstatus Pending dulu kalau mau ditandai udah dikirim.")]
+#[should_panic(expected = "Transaction must be Pending to be marked as shipped.")]
 fn test_double_mark_as_shipped_panics() {
     let (env, contract_id, _admin, token_id) = setup();
     let client = HyCrowsEscrowClient::new(&env, &contract_id);
