@@ -28,6 +28,7 @@ import {
   Clock,
   RefreshCw,
   Info,
+  Share2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -41,10 +42,12 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
   const [loading, setLoading] = useState<string | null>(null);
   const [txHash,  setTxHash]  = useState<string | null>(null);
   const [error,   setError]   = useState<string | null>(null);
+  const [copied,  setCopied]  = useState(false);
 
-  const isBuyer  = address === txn.buyer;
-  const isSeller = address === txn.seller;
-  const isAdmin  = address === ADMIN_ADDRESS;
+  const safeAddress = address?.trim().toUpperCase() || "";
+  const isBuyer  = safeAddress === txn.buyer?.trim().toUpperCase();
+  const isSeller = safeAddress === txn.seller?.trim().toUpperCase();
+  const isAdmin  = safeAddress === ADMIN_ADDRESS?.trim().toUpperCase();
 
   const [nowSecs, setNowSecs] = useState<bigint>(0n);
 
@@ -103,10 +106,22 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
             )}
           </p>
         </div>
-        <div className="flex items-center gap-2.5">
-          <span className={`text-xs font-black uppercase tracking-wide px-3 py-1.5 rounded-full border shadow-sm ${STATUS_COLOR[txn.status]}`}>
+        <div className="flex items-center gap-1 sm:gap-2.5">
+          <span className={`hidden sm:inline-block text-xs font-black uppercase tracking-wide px-3 py-1.5 rounded-full border shadow-sm ${STATUS_COLOR[txn.status]}`}>
             {txn.status}
           </span>
+          {/* Share button */}
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(txn.transaction_id.toString());
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            title="Copy Transaction ID"
+            className="p-2 flex items-center gap-1 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 border border-transparent hover:border-blue-100 transition-all shadow-sm"
+          >
+            {copied ? <CheckCircle size={15} className="text-emerald-500" /> : <Share2 size={15} />}
+          </button>
           {/* Manual refresh button */}
           <button
             onClick={onRefresh}
@@ -117,6 +132,12 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
             <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
           </button>
         </div>
+      </div>
+
+      <div className="sm:hidden mb-4">
+        <span className={`text-xs font-black uppercase tracking-wide px-3 py-1.5 rounded-full border shadow-sm inline-block ${STATUS_COLOR[txn.status]}`}>
+          {txn.status}
+        </span>
       </div>
 
       <div className="space-y-4 mb-6 text-sm bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
