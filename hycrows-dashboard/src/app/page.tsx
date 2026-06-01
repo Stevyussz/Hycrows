@@ -7,7 +7,7 @@ import LookupPanel from "@/components/LookupPanel";
 import { useWallet } from "@/context/WalletContext";
 import { CONTRACT_ID, ADMIN_ADDRESS } from "@/lib/stellar";
 import {
-  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle,
+  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock
 } from "lucide-react";
 import { useState } from "react";
 
@@ -58,38 +58,61 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-4 py-10">
         {/* ── Hero ───────────────────────────────────────────────────────── */}
-        <div className="text-center mb-12">
-          {/* Glow orb */}
-          <div className="relative inline-block mb-6">
-            <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-3xl animate-glow" />
-            <div className="relative w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-violet-500 via-purple-600 to-emerald-500 flex items-center justify-center text-4xl shadow-2xl shadow-violet-500/40 animate-float">
-              🦅
+        <div className="relative text-center mb-16 pt-6">
+          {/* Background blurred glow to anchor the text */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-violet-400/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Left Decorative Elements */}
+          <div className="hidden md:block absolute left-8 top-4 animate-float opacity-80">
+            <div className="bg-white/80 backdrop-blur p-4 rounded-2xl shadow-xl border border-violet-100 rotate-[-12deg]">
+              <Shield className="text-violet-500" size={36} />
+            </div>
+          </div>
+          <div className="hidden md:block absolute left-24 top-36 animate-float opacity-60" style={{ animationDelay: "1s" }}>
+            <div className="bg-white/80 backdrop-blur p-3 rounded-xl shadow-lg border border-amber-100 rotate-[15deg]">
+              <Scale className="text-amber-500" size={24} />
             </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">
-            HyCrows{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent">
-              Escrow
-            </span>
-          </h1>
-          <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg">
-            A trustless escrow protocol on Stellar Soroban. Featuring anti-griefing staking, 
-            automated time-locks, and on-chain dispute resolution.
-          </p>
+          {/* Right Decorative Elements */}
+          <div className="hidden md:block absolute right-8 top-12 animate-float opacity-80" style={{ animationDelay: "0.5s" }}>
+            <div className="bg-white/80 backdrop-blur p-4 rounded-2xl shadow-xl border border-emerald-100 rotate-[12deg]">
+              <Lock className="text-emerald-500" size={36} />
+            </div>
+          </div>
+          <div className="hidden md:block absolute right-28 top-40 animate-float opacity-60" style={{ animationDelay: "1.5s" }}>
+            <div className="bg-white/80 backdrop-blur p-3 rounded-xl shadow-lg border border-blue-100 rotate-[-15deg]">
+              <Zap className="text-blue-500" size={24} />
+            </div>
+          </div>
 
-          {/* Contract ID */}
-          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow transition-shadow">
-            <span className="text-xs text-slate-500 font-medium">Contract:</span>
-            <span className="font-mono text-xs text-slate-700">
-              {CONTRACT_ID.slice(0, 8)}…{CONTRACT_ID.slice(-6)}
-            </span>
-            <button
-              onClick={copyContract}
-              className="text-slate-400 hover:text-violet-600 transition-colors"
-            >
-              {copied ? <CheckCircle size={14} className="text-emerald-500" /> : <Copy size={14} />}
-            </button>
+          {/* Hero Content */}
+          <div className="relative z-10">
+            <h1 className="text-5xl sm:text-6xl font-black text-slate-900 tracking-tight mb-5 drop-shadow-sm">
+              HyCrows{" "}
+              <span className="bg-gradient-to-r from-violet-500 to-emerald-500 bg-clip-text text-transparent">
+                Escrow
+              </span>
+            </h1>
+            <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
+              A trustless escrow protocol on Stellar Soroban. Featuring anti-griefing staking, 
+              automated time-locks, and on-chain dispute resolution.
+            </p>
+
+            {/* Contract ID */}
+            <div className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
+              <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Contract:</span>
+              <span className="font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded font-medium">
+                {CONTRACT_ID.slice(0, 8)}…{CONTRACT_ID.slice(-6)}
+              </span>
+              <button
+                onClick={copyContract}
+                className="text-slate-400 hover:text-violet-600 transition-colors ml-1"
+                title="Copy Contract ID"
+              >
+                {copied ? <CheckCircle size={16} className="text-emerald-500" /> : <Copy size={16} />}
+              </button>
+            </div>
           </div>
         </div>
 
