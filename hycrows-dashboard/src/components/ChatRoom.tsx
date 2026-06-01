@@ -277,9 +277,9 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
             <button
               type="submit"
               disabled={!inputText.trim() || loading}
-              className="bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 text-white px-4 rounded-2xl transition-all flex items-center justify-center min-w-[50px] shadow-md shadow-violet-500/30"
+              className="bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 text-white rounded-2xl transition-all flex items-center justify-center w-[52px] h-[52px] shrink-0 shadow-md shadow-violet-500/30"
             >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+              {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} className="ml-1" />}
             </button>
           </form>
         </div>
