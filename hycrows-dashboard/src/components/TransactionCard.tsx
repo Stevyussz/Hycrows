@@ -29,7 +29,7 @@ import {
   RefreshCw,
   Info,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   txn:       EscrowTransaction;
@@ -46,9 +46,18 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
   const isSeller = address === txn.seller;
   const isAdmin  = address === ADMIN_ADDRESS;
 
+  const [nowSecs, setNowSecs] = useState<bigint>(0n);
+
   // Auto-release available if >= 24 hours since shipped.
   // Using local time as an estimation; contract enforces exact time.
-  const nowSecs = BigInt(Math.floor(Date.now() / 1000));
+  useEffect(() => {
+    setNowSecs(BigInt(Math.floor(Date.now() / 1000)));
+    const interval = setInterval(() => {
+      setNowSecs(BigInt(Math.floor(Date.now() / 1000)));
+    }, 10000); // update every 10 seconds for UI precision
+    return () => clearInterval(interval);
+  }, []);
+
   const autoReleaseAvailable =
     txn.status === "Shipped" &&
     txn.shipped_timestamp > 0n &&
@@ -56,7 +65,7 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
 
   // Time remaining until auto-release (for display)
   const secsUntilRelease =
-    txn.status === "Shipped" && txn.shipped_timestamp > 0n
+    txn.status === "Shipped" && txn.shipped_timestamp > 0n && nowSecs > 0n
       ? Number(txn.shipped_timestamp + 86400n - nowSecs)
       : 0;
 
@@ -110,18 +119,17 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
         </div>
       </div>
 
-      {/* Parties */}
-      <div className="space-y-3 mb-6 text-sm bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
-        <div className="flex items-center justify-between">
-          <span className="text-slate-500 font-medium text-xs uppercase tracking-wider">Buyer</span>
-          <span className={`font-mono text-xs truncate max-w-[200px] sm:max-w-[300px] ${isBuyer ? "text-violet-600 font-bold bg-violet-50 px-2 py-1 rounded" : "text-slate-600"}`}>
+      <div className="space-y-4 mb-6 text-sm bg-slate-50/50 rounded-2xl p-4 border border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-slate-500 font-medium text-xs uppercase tracking-wider shrink-0">Buyer</span>
+          <span className={`font-mono text-xs break-all sm:text-right ${isBuyer ? "text-violet-600 font-bold bg-violet-50 px-2 py-1 rounded w-fit sm:ml-auto" : "text-slate-600"}`}>
             {txn.buyer}
             {isBuyer && <span className="ml-1 text-violet-400 font-medium normal-case">(you)</span>}
           </span>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-slate-500 font-medium text-xs uppercase tracking-wider">Seller</span>
-          <span className={`font-mono text-xs truncate max-w-[200px] sm:max-w-[300px] ${isSeller ? "text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded" : "text-slate-600"}`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-slate-500 font-medium text-xs uppercase tracking-wider shrink-0">Seller</span>
+          <span className={`font-mono text-xs break-all sm:text-right ${isSeller ? "text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded w-fit sm:ml-auto" : "text-slate-600"}`}>
             {txn.seller}
             {isSeller && <span className="ml-1 text-emerald-400 font-medium normal-case">(you)</span>}
           </span>

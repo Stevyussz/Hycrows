@@ -38,6 +38,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
       const res = await fetch(`/api/chat?txnId=${txnId}`);
       if (res.ok) {
         const data: ChatMessage[] = await res.json();
+        // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
         setMessages(data);
       }
     } catch {
@@ -128,7 +129,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
   // ── Disconnected State ──────────────────────────────────────────────────────
   if (!address) {
     return (
-      <div className="bg-white/80 backdrop-blur-md border border-slate-200 rounded-3xl h-[420px] flex flex-col items-center justify-center gap-4 p-6 text-center shadow-sm">
+      <div className="bg-white/80 backdrop-blur-md border border-slate-200 rounded-3xl h-[350px] sm:h-[450px] flex flex-col items-center justify-center gap-4 p-6 text-center shadow-sm">
         <div className="bg-slate-100 p-4 rounded-full text-slate-400">
           <MessageSquare size={32} />
         </div>
@@ -139,7 +140,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
 
   // ── Main Render ──────────────────────────────────────────────────────────
   return (
-    <div className="bg-white/90 backdrop-blur-xl border border-slate-200 rounded-3xl flex flex-col h-[560px] shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
+    <div className="bg-white/90 backdrop-blur-xl border border-slate-200 rounded-3xl flex flex-col h-[400px] sm:h-[500px] shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500">
 
       {/* Header ─────────────────────────────────────────────────────────── */}
       <div className="px-5 py-4 border-b border-slate-100 bg-white/50 backdrop-blur-sm z-10 shadow-sm flex-col space-y-3">
