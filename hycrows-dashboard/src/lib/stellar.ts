@@ -215,7 +215,8 @@ export async function invokeContract(
   }
 
   if (getResponse.status === "FAILED") {
-    throw new Error("Transaksi gagal dikonfirmasi on-chain");
+    console.error("Tx Failed On-Chain:", getResponse);
+    throw new Error(`Transaksi gagal dikonfirmasi on-chain: ${JSON.stringify(getResponse.resultXdr || getResponse)}`);
   }
 
   if (getResponse.status === "NOT_FOUND") {
