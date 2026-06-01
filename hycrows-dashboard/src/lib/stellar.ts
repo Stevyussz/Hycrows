@@ -127,12 +127,24 @@ export async function fetchTransaction(
 
     const native = scValToNative(returnVal) as Record<string, unknown>;
 
+    let parsedStatus: TxStatus = "Pending";
+    const rawStatus = native.status;
+    if (typeof rawStatus === "number" || typeof rawStatus === "string") {
+      const map: Record<string, TxStatus> = {
+        "0": "Pending", "1": "Shipped", "2": "Disputed", "3": "Resolved", "4": "Refunded",
+        "Pending": "Pending", "Shipped": "Shipped", "Disputed": "Disputed", "Resolved": "Resolved", "Refunded": "Refunded"
+      };
+      parsedStatus = map[rawStatus.toString()] || "Pending";
+    } else if (typeof rawStatus === "object" && rawStatus !== null) {
+      parsedStatus = Object.keys(rawStatus)[0] as TxStatus;
+    }
+
     return {
       transaction_id:    BigInt(native.transaction_id as string | number),
       buyer:             native.buyer as string,
       seller:            native.seller as string,
       amount:            BigInt(native.amount as string | number),
-      status:            Object.keys(native.status as object)[0] as TxStatus,
+      status:            parsedStatus,
       shipped_timestamp: BigInt(native.shipped_timestamp as string | number),
       stake_amount:      BigInt(native.stake_amount as string | number),
     };
