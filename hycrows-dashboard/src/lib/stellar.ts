@@ -135,7 +135,9 @@ export async function fetchTransaction(
     let extractedKey = "Pending";
     const rawStatus = native.status;
     
-    if (typeof rawStatus === "number" || typeof rawStatus === "string") {
+    if (Array.isArray(rawStatus) && rawStatus.length > 0) {
+      extractedKey = String(rawStatus[0]);
+    } else if (typeof rawStatus === "number" || typeof rawStatus === "string") {
       extractedKey = String(rawStatus);
     } else if (typeof rawStatus === "object" && rawStatus !== null) {
       extractedKey = Object.keys(rawStatus)[0];
