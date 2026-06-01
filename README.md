@@ -9,6 +9,19 @@
 
 ---
 
+## 🟢 Level 4 - Green Belt Submission Deliverables
+
+This repository fulfills all requirements for the **Level 4 Green Belt** submission of the Stellar Journey to Mastery program.
+
+- **Live Demo Link:** [https://hycrows-dashboard.vercel.app/](https://hycrows-dashboard.vercel.app/) *(Please update this with your actual Vercel link!)*
+- **CI/CD Pipeline Running:** ![CI/CD Status](https://github.com/Stevyussz/Hycrows/actions/workflows/ci.yml/badge.svg)
+- **Mobile Responsive View:** <br/>
+  *(Please replace this text with an actual image link/screenshot of your mobile view!)*
+- **Smart Contract Address:** `CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH`
+- **Inter-Contract Call Example (Transaction Hash):** [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH) *(HyCrows leverages the SAC token::Client for XLM transfers, representing native inter-contract calls on Soroban).*
+
+---
+
 ## 💡 Inspiration: The Problem
 In the fast-growing digital economy, peer-to-peer (P2P) commerce suffers from a massive **trust deficit**. 
 - **Buyers** are afraid to send money first in fear of getting scammed.

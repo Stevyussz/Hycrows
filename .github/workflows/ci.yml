@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: './hycrows-dashboard/package-lock.json'
+
+    - name: Install Frontend Dependencies
+      working-directory: ./hycrows-dashboard
+      run: npm ci
+
+    - name: Build Frontend
+      working-directory: ./hycrows-dashboard
+      run: npm run build
+      env:
+        # Dummy env vars for build process to succeed
+        NEXT_PUBLIC_STELLAR_NETWORK: TESTNET
+        NEXT_PUBLIC_STELLAR_RPC_URL: https://soroban-testnet.stellar.org
+        NEXT_PUBLIC_CONTRACT_ID: CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH
