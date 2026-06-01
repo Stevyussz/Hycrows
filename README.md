@@ -13,7 +13,8 @@
 
 This repository fulfills all requirements for the **Level 4 Green Belt** submission of the Stellar Journey to Mastery program.
 
-- **Live Demo Link:** [https://demo-hycrows.vercel.app/](https://demo-hycrows.vercel.app/) 
+- **Live Demo Link:** [https://demo-hycrows.vercel.app/](https://demo-hycrows.vercel.app/)
+- **Video Demo Link:** [Google Drive](https://drive.google.com/file/d/1Nqs0eki9FEif1Tbe3uorpkIEPi5KVsD0/view?usp=drivesdk) 
 - **CI/CD Pipeline Running:** ![CI/CD Status](https://github.com/Stevyussz/Hycrows/actions/workflows/ci.yml/badge.svg)
 - **Mobile Responsive View:** <br/>
   <img width="1442" height="7546" alt="demo-hycrows vercel app_(Samsung Galaxy S20 Ultra)" src="https://github.com/user-attachments/assets/c30d6f21-7067-475e-9aff-2fda7baf1206" />
