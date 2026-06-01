@@ -262,6 +262,28 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
               />
             </div>
           )}
+          {/* Action Explanations when no buttons are available for the current role */}
+          {isBuyer && txn.status === "Pending" && (
+            <div className="w-full text-center p-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 text-slate-500 text-sm font-medium">
+              <Clock size={16} className="inline-block mb-0.5 mr-1.5" />
+              Waiting for the Seller to mark the order as shipped.
+            </div>
+          )}
+          
+          {isSeller && txn.status === "Shipped" && !autoReleaseAvailable && (
+            <div className="w-full text-center p-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 text-slate-500 text-sm font-medium">
+              <Clock size={16} className="inline-block mb-0.5 mr-1.5" />
+              Waiting for the Buyer to confirm receipt.
+            </div>
+          )}
+
+          {/* Fallback for Guest */}
+          {!isBuyer && !isSeller && !isAdmin && (
+            <div className="w-full text-center p-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 text-slate-500 text-sm font-medium">
+              <Info size={16} className="inline-block mb-0.5 mr-1.5" />
+              You are viewing this transaction as a Guest.
+            </div>
+          )}
         </div>
       )}
 
