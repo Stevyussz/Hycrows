@@ -95,7 +95,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
-              A trustless escrow protocol on Stellar Soroban. Featuring anti-griefing staking, 
+              A trustless escrow protocol on Stellar Ecosystem. Featuring anti-griefing staking, 
               automated time-locks, and on-chain dispute resolution.
             </p>
 
@@ -168,7 +168,7 @@ export default function Home() {
                   </p>
                   <div className="flex justify-center"><WalletButton /></div>
                   <p className="text-xs text-slate-500 mt-4">
-                    Don't have one?{" "}
+                    Don&apos;t have one?{" "}
                     <a
                       href="https://www.freighter.app/"
                       target="_blank"

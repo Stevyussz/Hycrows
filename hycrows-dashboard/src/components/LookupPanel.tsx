@@ -53,6 +53,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
   // Auto-fetch when DepositForm succeeds
   useEffect(() => {
     if (autoFetchId) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
       setTxnId(autoFetchId);
       fetchById(autoFetchId);
     }
