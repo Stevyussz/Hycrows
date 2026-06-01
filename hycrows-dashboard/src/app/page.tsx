@@ -1,6 +1,7 @@
 "use client";
 // src/app/page.tsx — HyCrows Dashboard Homepage
 
+import Image from "next/image";
 import WalletButton from "@/components/WalletButton";
 import DepositForm from "@/components/DepositForm";
 import LookupPanel from "@/components/LookupPanel";
@@ -30,12 +31,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {/* Logo */}
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-emerald-500 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-violet-500/30">
-              H
+            <div className="relative w-9 h-9 rounded-lg overflow-hidden shadow-lg shadow-violet-500/30">
+              <Image src="/logo.png" alt="HyCrows Logo" fill className="object-cover" />
             </div>
             <div>
-              <span className="font-bold text-slate-900 tracking-tight">HyCrows</span>
-              <span className="ml-2 text-xs text-violet-400 font-medium bg-violet-500/10 px-2 py-0.5 rounded-full border border-violet-500/20">
+              <span className="font-bold text-slate-900 tracking-tight text-lg">HyCrows</span>
+              <span className="ml-2 text-[10px] text-violet-600 font-bold bg-violet-100 px-2 py-0.5 rounded-full border border-violet-200 uppercase tracking-wider">
                 Testnet
               </span>
             </div>
