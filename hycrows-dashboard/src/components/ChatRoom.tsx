@@ -245,8 +245,8 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
           {sendError && (
             <p className="px-4 pb-2 text-xs text-red-500 font-bold flex items-center gap-1">⚠️ {sendError}</p>
           )}
-          <form onSubmit={sendMessage} className="flex gap-2">
-            <div className="flex-1 flex flex-col relative">
+          <form onSubmit={sendMessage} className="flex w-full items-center gap-2">
+            <div className="flex-grow flex flex-col relative min-w-0">
               <input
                 type="text"
                 value={inputText}
@@ -263,7 +263,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
                   }
                 }}
                 placeholder="Write a message… (Enter to send)"
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl pl-4 pr-16 py-3.5 text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 text-slate-800 placeholder-slate-400 transition-all font-medium"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-4 pr-16 py-3.5 text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 text-slate-800 placeholder-slate-400 transition-all font-medium"
                 disabled={loading}
                 maxLength={MAX_CHARS}
               />
@@ -277,7 +277,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
             <button
               type="submit"
               disabled={!inputText.trim() || loading}
-              className="bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 text-white rounded-2xl transition-all flex items-center justify-center w-[52px] h-[52px] shrink-0 shadow-md shadow-violet-500/30"
+              className="flex-none bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 text-white rounded-2xl transition-all flex items-center justify-center w-12 h-12 shadow-md shadow-violet-500/30"
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} className="ml-1" />}
             </button>
