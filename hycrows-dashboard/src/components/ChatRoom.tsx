@@ -50,7 +50,7 @@ export default function ChatRoom({ txnId, buyer, seller, status }: ChatRoomProps
 
   useEffect(() => {
     fetchMessages();
-    const interval = setInterval(fetchMessages, 3000);
+    const interval = setInterval(fetchMessages, 7000); // 7s — reduces Vercel function invocations
     return () => clearInterval(interval);
   }, [fetchMessages]);
 

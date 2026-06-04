@@ -144,7 +144,9 @@ export async function fetchTransaction(
     }
 
     const parsedStatus: TxStatus = map[extractedKey] || "Pending";
-    console.log("[DEBUG] rawStatus:", rawStatus, "extractedKey:", extractedKey, "parsedStatus:", parsedStatus);
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[DEBUG] rawStatus:", rawStatus, "extractedKey:", extractedKey, "parsedStatus:", parsedStatus);
+    }
 
     return {
       transaction_id:    BigInt(native.transaction_id as string | number),
@@ -183,7 +185,7 @@ export async function invokeContract(
     networkPassphrase: NETWORK_PASSPHRASE,
   })
     .addOperation(contract.call(functionName, ...args))
-    .setTimeout(30)
+    .setTimeout(180) // 3 minutes — gives user enough time to review Freighter popup
     .build();
 
   // Simulasikan dan rakit transaksi (handle footprint & resource fee)

@@ -23,6 +23,10 @@ export async function POST(request: Request) {
     if (Number.isFinite(id) && id > 0) {
       if (!global.activeEscrows!.includes(id)) {
         global.activeEscrows!.push(id);
+        // Keep only the 50 most recent to prevent unbounded memory growth
+        if (global.activeEscrows!.length > 50) {
+          global.activeEscrows = global.activeEscrows!.slice(-50);
+        }
       }
     }
 

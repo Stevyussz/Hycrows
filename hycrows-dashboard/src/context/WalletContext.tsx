@@ -10,6 +10,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import toast from "react-hot-toast";
 
 interface WalletContextType {
   address:      string | null;
@@ -72,7 +73,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(STORAGE_KEY, "true");
     } catch (err) {
       console.error("Wallet connect error:", err);
-      alert(err instanceof Error ? err.message : "Gagal connect wallet");
+      toast.error(err instanceof Error ? err.message : "Gagal connect wallet");
     } finally {
       setIsConnecting(false);
     }

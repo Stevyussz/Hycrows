@@ -384,7 +384,8 @@ fn test_duplicate_transaction_id_panics() {
     client.deposit(&txn_id, &buyer, &seller, &amount);
 }
 
-/// Pastikan hanya penjual yang bisa mark_as_shipped.
+/// Pastikan seller tidak bisa memanggil mark_as_shipped dua kali
+/// (status sudah berubah ke Shipped, bukan Pending lagi).
 #[test]
 #[should_panic(expected = "Transaction must be Pending to be marked as shipped.")]
 fn test_double_mark_as_shipped_panics() {
