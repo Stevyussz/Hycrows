@@ -35,3 +35,9 @@ Cargo.lock
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project-specific runtime files (not for version control)
+hycrows-dashboard/chat.db.json
+hycrows-dashboard/*.txt
+PITCH_DECK.md
+README_JUDGES.md

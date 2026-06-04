@@ -7,14 +7,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-frontend:
+    name: Build & Lint Frontend
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
+    - name: Setup Node.js 20
       uses: actions/setup-node@v4
       with:
         node-version: '20'
@@ -25,11 +26,42 @@ jobs:
       working-directory: ./hycrows-dashboard
       run: npm ci
 
-    - name: Build Frontend
+    - name: Build Frontend (Production)
       working-directory: ./hycrows-dashboard
       run: npm run build
       env:
-        # Dummy env vars for build process to succeed
-        NEXT_PUBLIC_STELLAR_NETWORK: TESTNET
+        # Use the live Testnet contract and admin for CI build validation
+        NEXT_PUBLIC_STELLAR_NETWORK: testnet
         NEXT_PUBLIC_STELLAR_RPC_URL: https://soroban-testnet.stellar.org
-        NEXT_PUBLIC_CONTRACT_ID: CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH
+        NEXT_PUBLIC_STELLAR_PASSPHRASE: "Test SDF Network ; September 2015"
+        NEXT_PUBLIC_CONTRACT_ID_V2: CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD
+        NEXT_PUBLIC_XLM_SAC: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+        NEXT_PUBLIC_ADMIN_ADDRESS_V2: GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54
+
+  test-contract:
+    name: Run Smart Contract Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+
+    - name: Cache Cargo Registry
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          hycrows-escrow/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Run Smart Contract Unit Tests
+      working-directory: ./hycrows-escrow
+      run: cargo test
