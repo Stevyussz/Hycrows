@@ -8,7 +8,7 @@ import LookupPanel from "@/components/LookupPanel";
 import { useWallet } from "@/context/WalletContext";
 import { CONTRACT_ID, ADMIN_ADDRESS } from "@/lib/stellar";
 import {
-  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock
+  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -48,7 +48,7 @@ function AdminTrackerList({ onSelectTxn }: { onSelectTxn: (id: string) => void }
 }
 
 export default function Home() {
-  const { address } = useWallet();
+  const { address, balance, refreshBalance } = useWallet();
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState<"lookup" | "about">("lookup");
   const [activeTxnId, setActiveTxnId] = useState("");
@@ -217,11 +217,35 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                    <p className="text-xs text-slate-500 mb-1.5 font-medium">Connected as</p>
-                    <p className="font-mono text-xs text-emerald-700 break-all bg-emerald-50 p-2 rounded border border-emerald-100">{address}</p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1.5 font-medium">Connected as</p>
+                      <p className="font-mono text-xs text-emerald-700 break-all bg-emerald-50 p-2 rounded border border-emerald-100">{address}</p>
+                    </div>
+
+                    {/* XLM Balance — White Belt Level 1 requirement */}
+                    <div className="flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-3">
+                      <div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">XLM Balance</p>
+                        <p className="text-xl font-black text-slate-900 tracking-tight">
+                          {balance !== null ? (
+                            <><span>{balance}</span><span className="text-sm font-semibold text-slate-400 ml-1">XLM</span></>
+                          ) : (
+                            <span className="text-slate-300 animate-pulse">Loading…</span>
+                          )}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => refreshBalance()}
+                        title="Refresh balance"
+                        className="text-slate-400 hover:text-violet-600 transition-colors p-1.5 rounded-lg hover:bg-violet-50"
+                      >
+                        <RefreshCw size={14} />
+                      </button>
+                    </div>
+
                     {address === ADMIN_ADDRESS && (
-                      <span className="mt-3 inline-flex items-center gap-1.5 text-xs bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-bold">
+                      <span className="inline-flex items-center gap-1.5 text-xs bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-bold">
                         👑 Treasury Admin
                       </span>
                     )}

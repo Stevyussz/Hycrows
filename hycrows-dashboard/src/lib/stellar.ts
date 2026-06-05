@@ -85,6 +85,36 @@ function getRpc(): rpc.Server {
   return new rpc.Server(RPC_URL, { allowHttp: false });
 }
 
+// ─── READ: XLM Balance via Horizon ───────────────────────────────────────────
+
+/**
+ * Fetch native XLM balance for a given Stellar address using Horizon API.
+ * Returns balance as a formatted string (e.g. "9,842.50") or "0.00" on error.
+ */
+export async function fetchXlmBalance(address: string): Promise<string> {
+  try {
+    const network = process.env.NEXT_PUBLIC_STELLAR_NETWORK || "testnet";
+    const horizonUrl = network === "mainnet"
+      ? "https://horizon.stellar.org"
+      : "https://horizon-testnet.stellar.org";
+
+    const res = await fetch(`${horizonUrl}/accounts/${address}`);
+    if (!res.ok) return "0.00";
+
+    const data = await res.json();
+    const native = (data.balances as Array<{ asset_type: string; balance: string }>)
+      ?.find((b) => b.asset_type === "native");
+
+    if (!native) return "0.00";
+    return parseFloat(native.balance).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  } catch {
+    return "0.00";
+  }
+}
+
 // ─── READ: get_transaction ───────────────────────────────────────────────────
 
 /**
