@@ -18,8 +18,26 @@ This repository fulfills all requirements for the **Level 4 Green Belt** submiss
 - **CI/CD Pipeline Running:** ![CI/CD Status](https://github.com/Stevyussz/Hycrows/actions/workflows/ci.yml/badge.svg)
 - **Mobile Responsive View:** <br/>
   <img width="1442" height="7546" alt="demo-hycrows vercel app_(Samsung Galaxy S20 Ultra)" src="https://github.com/user-attachments/assets/c30d6f21-7067-475e-9aff-2fda7baf1206" />
-- **Smart Contract Address:** `CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH`
-- **Inter-Contract Call Example (Transaction Hash):** [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBRDXOJHZVLLDEHAMFP6HS2CWSQZRNDXKDBUDGNM4RWLFNCDHTGEYPXH) *(HyCrows leverages the SAC token::Client for XLM transfers, representing native inter-contract calls on Soroban).*
+- **Smart Contract Address:** `CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD`
+- **Inter-Contract Call Example (Transaction Hash):** [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD) *(HyCrows leverages the SAC token::Client for XLM transfers, representing native inter-contract calls on Soroban).*
+
+---
+
+## ⚪️ Level 1 - White Belt Submission Deliverables
+
+Per requirements for **Level 1 White Belt**, here are the verification screenshots from the live Testnet dApp:
+
+### 1. Wallet Connected State & XLM Balance Displayed
+*Showcases connection to Freighter Wallet on Testnet, displaying the user's current native balance.*
+![Wallet Connected](./screenshots/wallet-connected.png)
+
+### 2. Successful Testnet Transaction (Deposit)
+*Showcases user sending a transaction (deposit escrow) to the smart contract.*
+![Transaction Success](./screenshots/transaction-success.png)
+
+### 3. Transaction Result & Hash Confirmation
+*Showcases user feedback showing the confirmed transaction hash or exploration link.*
+![Transaction Hash](./screenshots/transaction-hash.png)
 
 ---
 
