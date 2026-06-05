@@ -69,8 +69,8 @@ export default function NotificationBell({ onSelectTxn }: Props) {
               <span className="text-2xl">🔔</span>
               <div>
                 <p className="font-bold text-sm text-slate-900">New Escrow Incoming!</p>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  #{newest.txnId} — {newest.amount} XLM
+                <p className="text-xs text-slate-600 mt-0.5 leading-snug">
+                  {newest.message || `Escrow #${newest.txnId} created`}
                 </p>
                 <p className="text-[10px] text-violet-500 mt-1 font-medium flex items-center gap-0.5">
                   Click to view <ArrowRight size={10} />
@@ -175,16 +175,12 @@ export default function NotificationBell({ onSelectTxn }: Props) {
                     <div className="flex items-start gap-2.5">
                       <span className="text-lg mt-0.5">{notif.type === "new_escrow" ? "💰" : "📢"}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-slate-800 truncate">
-                          Escrow #{notif.txnId}{" "}
-                          <span className="font-semibold text-violet-500">{notif.amount} XLM</span>
+                        <p className="text-xs font-medium text-slate-800 leading-snug">
+                          {notif.message || `New escrow #${notif.txnId} created`}
                         </p>
-                        <p className="text-[10px] text-slate-500 mt-0.5 truncate">
-                          From: {notif.from.slice(0, 8)}…{notif.from.slice(-4)}
-                        </p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">
+                        <p className="text-[10px] text-slate-400 mt-1 font-medium">
                           {new Date(notif.timestamp).toLocaleString("id-ID", {
-                            dateStyle: "short",
+                            dateStyle: "medium",
                             timeStyle: "short",
                           })}
                         </p>
