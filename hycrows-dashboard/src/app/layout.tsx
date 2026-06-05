@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({
   children,
 }: {
@@ -25,7 +27,10 @@ export default function RootLayout({
   return (
     <html lang="id" className={inter.variable}>
       <body className="bg-slate-50 text-slate-900 antialiased min-h-screen">
-        <WalletProvider>{children}</WalletProvider>
+        <WalletProvider>
+          {children}
+          <Toaster position="top-center" reverseOrder={false} />
+        </WalletProvider>
       </body>
     </html>
   );

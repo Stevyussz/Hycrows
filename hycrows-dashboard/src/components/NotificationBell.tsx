@@ -36,17 +36,43 @@ export default function NotificationBell({ onSelectTxn }: Props) {
       const res = await fetch(`/api/notifications?address=${address}`);
       const data = await res.json();
       if (data.notifications) {
-        setNotifications(data.notifications);
+        setNotifications((prev) => {
+          const merged = [...prev];
+          let updated = false;
+          data.notifications.forEach((incoming: Notification) => {
+            const existsIdx = merged.findIndex((n) => n.id === incoming.id);
+            if (existsIdx >= 0) {
+              if (!merged[existsIdx].read && incoming.read) {
+                merged[existsIdx].read = true;
+                updated = true;
+              }
+            } else {
+              merged.push(incoming);
+              updated = true;
+            }
+          });
+          if (updated) {
+            merged.sort((a, b) => a.timestamp - b.timestamp);
+            try { localStorage.setItem(`notifs_${address}`, JSON.stringify(merged)); } catch {}
+            return merged;
+          }
+          return prev;
+        });
       }
     } catch {}
   }, [address]);
 
-  // Poll for notifications every 5 seconds
+  // Load from local storage initially, and set up polling
   useEffect(() => {
     if (!address) {
       setNotifications([]);
       return;
     }
+    try {
+      const stored = localStorage.getItem(`notifs_${address}`);
+      if (stored) setNotifications(JSON.parse(stored));
+    } catch {}
+
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 5000);
     return () => clearInterval(interval);
@@ -103,7 +129,11 @@ export default function NotificationBell({ onSelectTxn }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ address }),
       });
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setNotifications((prev) => {
+        const updated = prev.map((n) => ({ ...n, read: true }));
+        try { localStorage.setItem(`notifs_${address}`, JSON.stringify(updated)); } catch {}
+        return updated;
+      });
     } catch {}
   }, [address]);
 
