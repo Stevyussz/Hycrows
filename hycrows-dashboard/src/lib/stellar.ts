@@ -14,13 +14,13 @@ import {
 } from "@stellar/stellar-sdk";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
-export const CONTRACT_ID         = process.env.NEXT_PUBLIC_CONTRACT_ID_V2 || "CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD";
-export const RPC_URL             = process.env.NEXT_PUBLIC_STELLAR_RPC_URL || "https://soroban-testnet.stellar.org";
-export const NETWORK_PASSPHRASE  = process.env.NEXT_PUBLIC_STELLAR_PASSPHRASE || "Test SDF Network ; September 2015";
-export const XLM_SAC             = process.env.NEXT_PUBLIC_XLM_SAC || "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
+export const CONTRACT_ID         = process.env.NEXT_PUBLIC_CONTRACT_ID_V2 || "CATBRQ6RQII3MZDEPIS4GB7RLAXKREC3AUSOSJMDHZDJPF6YBZYDRJUC";
+export const RPC_URL             = process.env.NEXT_PUBLIC_STELLAR_RPC_URL || "https://mainnet.stellar.validationcloud.io/v1/soroban";
+export const NETWORK_PASSPHRASE  = process.env.NEXT_PUBLIC_STELLAR_PASSPHRASE || "Public Global Stellar Network ; September 2015";
+export const XLM_SAC             = process.env.NEXT_PUBLIC_XLM_SAC || "CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA";
 export const ADMIN_ADDRESS       = process.env.NEXT_PUBLIC_ADMIN_ADDRESS_V2 || "GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54";
 
-export const IS_MAINNET          = (process.env.NEXT_PUBLIC_STELLAR_NETWORK || "testnet") === "mainnet";
+export const IS_MAINNET          = (process.env.NEXT_PUBLIC_STELLAR_NETWORK || "mainnet") === "mainnet";
 export const EXPLORER_BASE_URL   = IS_MAINNET ? "https://stellar.expert/explorer/public" : "https://stellar.expert/explorer/testnet";
 export const LAB_BASE_URL        = IS_MAINNET ? "https://lab.stellar.org/r/public" : "https://lab.stellar.org/r/testnet";
 
@@ -97,10 +97,10 @@ function getRpc(): rpc.Server {
  */
 export async function fetchXlmBalance(address: string): Promise<string> {
   try {
-    const network = process.env.NEXT_PUBLIC_STELLAR_NETWORK || "testnet";
-    const horizonUrl = network === "mainnet"
-      ? "https://horizon.stellar.org"
-      : "https://horizon-testnet.stellar.org";
+    const network = process.env.NEXT_PUBLIC_STELLAR_NETWORK || "mainnet";
+    const horizonUrl = network === "testnet"
+      ? "https://horizon-testnet.stellar.org"
+      : "https://horizon.stellar.org";
 
     const res = await fetch(`${horizonUrl}/accounts/${address}`);
     if (!res.ok) return "0.00";
