@@ -186,6 +186,19 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
             This transaction is resolved and permanently recorded on the blockchain.
           </div>
         )}
+
+        {/* Contract Explorer Link — satisfying White Belt verification needs */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-slate-200/60 pt-3 mt-3">
+          <span className="text-slate-500 font-medium text-xs uppercase tracking-wider shrink-0">Contract Explorer</span>
+          <a
+            href="https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-violet-600 hover:text-violet-800 font-bold flex items-center gap-1 sm:text-right"
+          >
+            CBIW5DDM...6SHCD <ExternalLink size={12} />
+          </a>
+        </div>
       </div>
 
       {/* Actions — hide if finished */}
@@ -289,16 +302,23 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
 
       {/* Feedback */}
       {txHash && (
-        <a
-          href={explorerBase + txHash}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 flex items-center justify-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 py-2.5 rounded-xl border border-emerald-200 hover:bg-emerald-100 font-bold transition-colors"
-        >
-          <CheckCircle size={14} />
-          TX Confirmed! View in Explorer
-          <ExternalLink size={13} />
-        </a>
+        <div className="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2">
+          <p className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+            <CheckCircle size={14} className="text-emerald-600" />
+            Transaction Successful!
+          </p>
+          <div className="flex items-center justify-between text-xs font-mono text-emerald-700 bg-white px-3 py-2 rounded-xl border border-emerald-100">
+            <span className="truncate mr-2">Tx Hash: {txHash}</span>
+            <a
+              href={explorerBase + txHash}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-violet-600 hover:text-violet-800 font-bold flex items-center gap-0.5 shrink-0"
+            >
+              Verify <ExternalLink size={12} />
+            </a>
+          </div>
+        </div>
       )}
       {error && (
         <p className="mt-4 text-xs text-red-600 bg-red-50 p-3 rounded-xl border border-red-100 font-medium flex items-start gap-1.5">
