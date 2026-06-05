@@ -6,7 +6,7 @@ import WalletButton from "@/components/WalletButton";
 import DepositForm from "@/components/DepositForm";
 import LookupPanel from "@/components/LookupPanel";
 import { useWallet } from "@/context/WalletContext";
-import { CONTRACT_ID, ADMIN_ADDRESS } from "@/lib/stellar";
+import { CONTRACT_ID, ADMIN_ADDRESS, EXPLORER_BASE_URL, LAB_BASE_URL } from "@/lib/stellar";
 import {
   Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw
 } from "lucide-react";
@@ -80,7 +80,7 @@ export default function Home() {
 
           <div className="flex items-center gap-3">
             <a
-              href={`https://lab.stellar.org/r/testnet/contract/${CONTRACT_ID}`}
+              href={`${LAB_BASE_URL}/contract/${CONTRACT_ID}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 hover:text-violet-600 transition-colors"
@@ -408,9 +408,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="mt-16 border-t border-slate-200 py-8 text-center text-xs text-slate-500">
         <p>HyCrows Escrow Protocol • Stellar Testnet • Contract: <span className="font-mono text-slate-500">{CONTRACT_ID}</span></p>
-        <p className="mt-1">
-          <a href={`https://stellar.expert/explorer/testnet/contract/${CONTRACT_ID}`} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 underline font-medium">
-            View on Stellar Expert
+        <p className="mt-8 text-xs text-slate-500 font-medium">
+          <a href={`${EXPLORER_BASE_URL}/contract/${CONTRACT_ID}`} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 underline font-medium">
+            Contract: {CONTRACT_ID}
           </a>
         </p>
       </footer>

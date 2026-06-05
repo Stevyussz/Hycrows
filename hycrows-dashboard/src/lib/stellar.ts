@@ -20,6 +20,10 @@ export const NETWORK_PASSPHRASE  = process.env.NEXT_PUBLIC_STELLAR_PASSPHRASE ||
 export const XLM_SAC             = process.env.NEXT_PUBLIC_XLM_SAC || "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
 export const ADMIN_ADDRESS       = process.env.NEXT_PUBLIC_ADMIN_ADDRESS_V2 || "GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54";
 
+export const IS_MAINNET          = (process.env.NEXT_PUBLIC_STELLAR_NETWORK || "testnet") === "mainnet";
+export const EXPLORER_BASE_URL   = IS_MAINNET ? "https://stellar.expert/explorer/public" : "https://stellar.expert/explorer/testnet";
+export const LAB_BASE_URL        = IS_MAINNET ? "https://lab.stellar.org/r/public" : "https://lab.stellar.org/r/testnet";
+
 // 1 XLM = 10_000_000 stroops
 export const XLM_DECIMALS = 7;
 export const ONE_XLM      = 10_000_000n;

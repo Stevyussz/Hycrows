@@ -108,6 +108,22 @@ The HyCrows ecosystem is composed of two main modules:
 
 ---
 
+## 🚀 Mainnet Deployment (For Stellar Team)
+If this repository is selected to be deployed on **Stellar Mainnet**, the codebase is 100% prepared.
+We have removed all hardcoded testnet paths. The `Explorer` and `Stellar Lab` URLs in the UI will automatically adapt based on the network environment variable.
+
+To deploy on Mainnet:
+1. Deploy the compiled WASM (`hycrows_escrow.wasm`) to Mainnet using a funded Mainnet address.
+2. Initialize the contract by supplying the **Mainnet XLM Native SAC address** (`CAS3J7GYMHO5Z...`) as the `token_address` and the Mainnet Treasury Address.
+3. In your Vercel (or hosting) Dashboard, set the following environment variables (see `.env.example`):
+   - `NEXT_PUBLIC_STELLAR_NETWORK=mainnet`
+   - `NEXT_PUBLIC_STELLAR_RPC_URL=https://mainnet.stellar.validationcloud.io/v1/soroban` (or equivalent)
+   - `NEXT_PUBLIC_STELLAR_PASSPHRASE="Public Global Stellar Network ; September 2015"`
+   - `NEXT_PUBLIC_CONTRACT_ID_V2=<MAINNET_CONTRACT_ID>`
+   - `NEXT_PUBLIC_XLM_SAC=<MAINNET_XLM_SAC>`
+
+---
+
 ## 🚀 Getting Started & Local Setup
 
 ### Prerequisites

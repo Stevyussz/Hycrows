@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useWallet } from "@/context/WalletContext";
-import { depositEscrow } from "@/lib/stellar";
+import { depositEscrow, EXPLORER_BASE_URL } from "@/lib/stellar";
 import { PlusCircle, ExternalLink, Loader2, AlertCircle } from "lucide-react";
 
 interface Props {
@@ -199,7 +199,7 @@ export default function DepositForm({ onSuccess }: Props) {
               {txHash && (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5">
                   <a
-                    href={`https://stellar.expert/explorer/testnet/tx/${txHash}`}
+                    href={`${EXPLORER_BASE_URL}/tx/${txHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-1.5 text-sm text-emerald-700 hover:text-emerald-600 font-bold"

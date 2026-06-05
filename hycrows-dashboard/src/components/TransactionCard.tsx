@@ -7,6 +7,8 @@ import {
   stroopsToXlm,
   formatTimestamp,
   isFinalStatus,
+  EXPLORER_BASE_URL,
+  CONTRACT_ID,
 } from "@/lib/stellar";
 import { useWallet } from "@/context/WalletContext";
 import {
@@ -88,7 +90,7 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
     }
   }
 
-  const explorerBase = "https://stellar.expert/explorer/testnet/tx/";
+  const explorerBase = `${EXPLORER_BASE_URL}/tx/`;
   const finished = isFinalStatus(txn.status);
 
   return (
@@ -191,12 +193,12 @@ export default function TransactionCard({ txn, onRefresh }: Props) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-slate-200/60 pt-3 mt-3">
           <span className="text-slate-500 font-medium text-xs uppercase tracking-wider shrink-0">Contract Explorer</span>
           <a
-            href="https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD"
+            href={`${EXPLORER_BASE_URL}/contract/${CONTRACT_ID}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs font-mono text-violet-600 hover:text-violet-800 font-bold flex items-center gap-1 sm:text-right"
           >
-            CBIW5DDM...6SHCD <ExternalLink size={12} />
+            {CONTRACT_ID.slice(0, 8)}…{CONTRACT_ID.slice(-5)} <ExternalLink size={12} />
           </a>
         </div>
       </div>
