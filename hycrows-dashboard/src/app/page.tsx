@@ -6,7 +6,7 @@ import WalletButton from "@/components/WalletButton";
 import DepositForm from "@/components/DepositForm";
 import LookupPanel from "@/components/LookupPanel";
 import { useWallet } from "@/context/WalletContext";
-import { CONTRACT_ID, ADMIN_ADDRESS, EXPLORER_BASE_URL, LAB_BASE_URL } from "@/lib/stellar";
+import { CONTRACT_ID, ADMIN_ADDRESS, EXPLORER_BASE_URL, LAB_BASE_URL, IS_MAINNET } from "@/lib/stellar";
 import {
   Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw
 } from "lucide-react";
@@ -72,8 +72,12 @@ export default function Home() {
             </div>
             <div>
               <span className="font-bold text-slate-900 tracking-tight text-lg">HyCrows</span>
-              <span className="ml-2 text-[10px] text-violet-600 font-bold bg-violet-100 px-2 py-0.5 rounded-full border border-violet-200 uppercase tracking-wider">
-                Testnet
+              <span className={`ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider ${
+                IS_MAINNET 
+                  ? "text-emerald-700 bg-emerald-100 border-emerald-200"
+                  : "text-violet-600 bg-violet-100 border-violet-200"
+              }`}>
+                {IS_MAINNET ? "Mainnet" : "Testnet"}
               </span>
             </div>
           </div>
@@ -300,7 +304,7 @@ export default function Home() {
               <h3 className="font-semibold text-slate-900 text-sm mb-4">Network Configuration</h3>
               <div className="space-y-3 text-xs">
                 {[
-                  { label: "Network", value: "Stellar Testnet" },
+                  { label: "Network", value: IS_MAINNET ? "Stellar Mainnet" : "Stellar Testnet" },
                   { label: "Protocol", value: "Version 26" },
                   { label: "SDK", value: "soroban-sdk v26" },
                   { label: "Dispute Stake", value: "2 XLM" },
@@ -407,7 +411,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="mt-16 border-t border-slate-200 py-8 text-center text-xs text-slate-500">
-        <p>HyCrows Escrow Protocol • Stellar Testnet • Contract: <span className="font-mono text-slate-500">{CONTRACT_ID}</span></p>
+        <p>HyCrows Escrow Protocol • {IS_MAINNET ? "Stellar Mainnet" : "Stellar Testnet"} • Contract: <span className="font-mono text-slate-500">{CONTRACT_ID}</span></p>
         <p className="mt-8 text-xs text-slate-500 font-medium">
           <a href={`${EXPLORER_BASE_URL}/contract/${CONTRACT_ID}`} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 underline font-medium">
             Contract: {CONTRACT_ID}
