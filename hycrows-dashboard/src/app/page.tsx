@@ -11,6 +11,7 @@ import {
   Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import NotificationBell from "@/components/NotificationBell";
 
 function AdminTrackerList({ onSelectTxn }: { onSelectTxn: (id: string) => void }) {
   const [ids, setIds] = useState<number[]>([]);
@@ -87,6 +88,10 @@ export default function Home() {
               <ExternalLink size={13} />
               Stellar Lab
             </a>
+            <NotificationBell onSelectTxn={(id) => {
+              setActiveTxnId(id);
+              setTab("lookup");
+            }} />
             <WalletButton />
           </div>
         </div>

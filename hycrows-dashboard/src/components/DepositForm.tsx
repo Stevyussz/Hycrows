@@ -82,6 +82,19 @@ export default function DepositForm({ onSuccess }: Props) {
         body: JSON.stringify({ txnId: submittedTxnId }),
       }).catch(console.error);
 
+      // Notify the Seller about the incoming escrow
+      fetch("/api/notifications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetAddress: form.seller.trim(),
+          txnId: submittedTxnId,
+          from: address,
+          amount: form.amount,
+          message: `💰 New escrow #${submittedTxnId} for ${form.amount} XLM from ${address.slice(0, 6)}…${address.slice(-4)}`,
+        }),
+      }).catch(console.error);
+
       setForm({ txnId: "", seller: "", amount: "" });
       setTimeout(() => {
         onSuccess(submittedTxnId);
