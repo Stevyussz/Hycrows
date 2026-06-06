@@ -110,7 +110,7 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
         </button>
       </form>
 
-      {notFound && !txn && (
+      {notFound && !txn && !loading && (
         <div className="bg-red-50 border border-red-100 rounded-xl p-6 text-center animate-in slide-in-from-top-2">
           <p className="text-sm text-red-600 font-medium">
             Transaction not found for ID <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded">{txnId}</span>.
@@ -118,7 +118,27 @@ export default function LookupPanel({ autoFetchId }: Props = {}) {
         </div>
       )}
 
-      {txn && (
+      {loading && !isRefreshing && (
+        <div className="grid lg:grid-cols-2 gap-5 animate-pulse">
+          <div className="bg-white border border-slate-200 rounded-2xl h-80 shadow-sm p-6 flex flex-col gap-4">
+            <div className="w-1/3 h-6 bg-slate-100 rounded-lg" />
+            <div className="w-full h-12 bg-slate-50 rounded-xl mt-4" />
+            <div className="flex-1 space-y-3 mt-4">
+              <div className="w-full h-8 bg-slate-50 rounded-lg" />
+              <div className="w-5/6 h-8 bg-slate-50 rounded-lg" />
+            </div>
+          </div>
+          <div className="bg-white border border-slate-200 rounded-2xl h-80 shadow-sm p-6 flex flex-col">
+            <div className="w-1/4 h-6 bg-slate-100 rounded-lg mb-6" />
+            <div className="flex-1 flex flex-col gap-4">
+              <div className="w-2/3 h-12 bg-slate-50 rounded-xl self-end" />
+              <div className="w-2/3 h-12 bg-slate-50 rounded-xl self-start" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {txn && !loading && (
         <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
           {/* Refresh indicator — minimal overlay, doesn't wipe content */}
           {isRefreshing && (

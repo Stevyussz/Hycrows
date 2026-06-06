@@ -8,7 +8,7 @@ import LookupPanel from "@/components/LookupPanel";
 import { useWallet } from "@/context/WalletContext";
 import { CONTRACT_ID, ADMIN_ADDRESS, EXPLORER_BASE_URL, LAB_BASE_URL, IS_MAINNET } from "@/lib/stellar";
 import {
-  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw
+  Shield, Zap, Scale, ExternalLink, Copy, CheckCircle, Lock, RefreshCw, HelpCircle
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import NotificationBell from "@/components/NotificationBell";
@@ -307,11 +307,19 @@ export default function Home() {
                   { label: "Network", value: IS_MAINNET ? "Stellar Mainnet" : "Stellar Testnet" },
                   { label: "Protocol", value: "Version 26" },
                   { label: "SDK", value: "soroban-sdk v26" },
-                  { label: "Dispute Stake", value: "2 XLM" },
-                  { label: "Auto-Release", value: "24 Hours" },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex justify-between text-slate-500 border-b border-slate-50 pb-2 last:border-0 last:pb-0">
-                    <span>{label}</span>
+                  { label: "Dispute Stake", value: "2 XLM", tip: "An anti-griefing fee required to open a dispute. Refunded if you win." },
+                  { label: "Auto-Release", value: "24 Hours", tip: "Time after shipment before funds are automatically released to the seller." },
+                ].map(({ label, value, tip }) => (
+                  <div key={label} className="flex justify-between items-center text-slate-500 border-b border-slate-50 pb-2 last:border-0 last:pb-0">
+                    <span className="flex items-center gap-1.5 group relative cursor-help">
+                      {label}
+                      {tip && <HelpCircle size={12} className="text-slate-300 group-hover:text-violet-500 transition-colors" />}
+                      {tip && (
+                        <span className="pointer-events-none absolute left-0 top-6 w-48 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[10px] p-2 rounded-lg shadow-xl z-10 leading-relaxed">
+                          {tip}
+                        </span>
+                      )}
+                    </span>
                     <span className="text-slate-700 font-semibold">{value}</span>
                   </div>
                 ))}
