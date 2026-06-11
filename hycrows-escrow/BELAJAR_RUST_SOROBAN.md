@@ -689,7 +689,7 @@ Untuk pemula: **abaikan dulu**, compiler akan memberitahu kapan perlu ditambahka
 | Rust dasar | https://doc.rust-lang.org/book/ |
 | Soroban docs | https://developers.stellar.org/docs/smart-contracts |
 | Soroban contoh | https://github.com/stellar/soroban-examples |
-| Stellar Expert | https://stellar.expert/explorer/public |
+| Stellar Expert | https://stellar.expert/explorer/testnet |
 | Stellar Lab (UI) | https://lab.stellar.org |
 
 ---

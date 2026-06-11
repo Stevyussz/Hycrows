@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Network-Stellar%20Mainnet-blue" alt="Stellar Mainnet" />
+  <img src="https://img.shields.io/badge/Network-Stellar%20Testnet-blue" alt="Stellar Testnet" />
   <img src="https://img.shields.io/badge/Soroban%20SDK-v26-orange" alt="Soroban v26" />
   <img src="https://img.shields.io/badge/Frontend-Next.js%2014-black" alt="Next.js" />
   <img src="https://img.shields.io/badge/Language-Rust-red" alt="Rust" />
@@ -18,8 +18,8 @@ This repository fulfills all requirements for the **Level 4 Green Belt** submiss
 - **CI/CD Pipeline Running:** ![CI/CD Status](https://github.com/Stevyussz/Hycrows/actions/workflows/ci.yml/badge.svg)
 - **Mobile Responsive View:** <br/>
   <img width="1442" height="7546" alt="demo-hycrows vercel app_(Samsung Galaxy S20 Ultra)" src="https://github.com/user-attachments/assets/c30d6f21-7067-475e-9aff-2fda7baf1206" />
-- **Smart Contract Address:** `CATBRQ6RQII3MZDEPIS4GB7RLAXKREC3AUSOSJMDHZDJPF6YBZYDRJUC`
-- **Inter-Contract Call Example (Transaction Hash):** [View on Stellar Expert](https://stellar.expert/explorer/public/contract/CATBRQ6RQII3MZDEPIS4GB7RLAXKREC3AUSOSJMDHZDJPF6YBZYDRJUC) *(HyCrows leverages the SAC token::Client for XLM transfers, representing native inter-contract calls on Soroban).*
+- **Smart Contract Address:** `CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD`
+- **Inter-Contract Call Example (Transaction Hash):** [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD) *(HyCrows leverages the SAC token::Client for XLM transfers, representing native inter-contract calls on Soroban).*
 
 ---
 
@@ -56,12 +56,12 @@ To fully evaluate the protocol, you can test the **Admin Dispute Resolution** wi
    `SAGV7T6W5VSGSOGFVNPRUIZ3BGOSL7ZSOY32WD2ZXQIVDSJLQIE6VQLF`
 4. Connect this imported wallet to the HyCrows Dashboard. The UI will automatically detect you as the Admin and unlock the **Admin Resolution Dashboard** and dispute override buttons!
 
-## 🟢 Live Deployments (Stellar Mainnet)
-The HyCrows smart contract is currently live on the Stellar Mainnet. You can interact with it directly or through our frontend dashboard.
+## 🟢 Live Deployments (Stellar Testnet)
+The HyCrows smart contract is currently live on the Stellar Testnet. You can interact with it directly or through our frontend dashboard.
 
-- **Smart Contract ID**: [`CATBRQ6RQII3MZDEPIS4GB7RLAXKREC3AUSOSJMDHZDJPF6YBZYDRJUC`](https://stellar.expert/explorer/public/contract/CATBRQ6RQII3MZDEPIS4GB7RLAXKREC3AUSOSJMDHZDJPF6YBZYDRJUC)
+- **Smart Contract ID**: [`CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD`](https://stellar.expert/explorer/testnet/contract/CBIW5DDMFROYROSBUBSE2FVTNQ7PCIZOMN2VJNCZI2BYMYWQXKY6SHCD)
 - **Treasury (Admin) Address**: `GD3MANCVQZ35HURGSOV6LBF7IP4SU3IPGISHNM3237MCE4IO4NALZC54`
-- **Supported Token**: XLM Native (`CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA`)
+- **Supported Token**: XLM Native (`CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`)
 
 ## 🚀 What It Does
 **HyCrows Escrow Protocol** solves this by introducing a fully decentralized, hybrid-automated smart contract escrow system on the Stellar network. 
@@ -146,10 +146,10 @@ cargo build --target wasm32v1-none --release
 # Run unit tests
 cargo test
 
-# Deploy to Stellar Mainnet
+# Deploy to Stellar Testnet
 stellar contract deploy \
   --wasm target/wasm32v1-none/release/hycrows_escrow.wasm \
-  --network mainnet \
+  --network testnet \
   --source <YOUR_FUNDED_KEY>
 ```
 
@@ -157,11 +157,11 @@ After deployment, initialize the contract with the Admin address and the native 
 ```bash
 stellar contract invoke \
   --id <YOUR_NEW_CONTRACT_ID> \
-  --network mainnet \
+  --network testnet \
   --source <YOUR_FUNDED_KEY> \
   -- initialize \
   --admin_address <ADMIN_ADDRESS> \
-  --token_address CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA
+  --token_address CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
 ```
 
 ### 2. Running the Dashboard
